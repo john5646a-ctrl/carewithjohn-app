@@ -565,15 +565,17 @@ function team(c){
 })();
 
 // Production boot: establish authenticated cloud context before rendering any workspace.
-(async function cwjBoot(){
+// The approved role UI is loaded immediately after this part, so expose the boot promise
+// and let that final UI layer perform the first render. This prevents a race where the
+// legacy workspace renders before the approved Admin/Staff/Client/Family UI is installed.
+window.cwjBootPromise=(async function cwjBoot(){
  try{
   await cloudMe();
   if(cloudUser) await pullCloud(true);
-  render();
-  if(!cloudUser) openAuth();
+  return true;
  }catch(e){
   try{setSync('Sign in required','warn');}catch{}
-  try{render();openAuth();}catch{}
+  return false;
  }
 })();
 </script>
