@@ -563,4 +563,17 @@ function team(c){
  const originalShowPage=window.showPage;window.showPage=function(p){if(isStaffMember()){if(p==='Today')staffPage='Home';else if(p==='Visit Delivery')staffPage='Visits';else if(p==='Team')staffPage='Profile';else staffPage=p;renderStaff();return}originalShowPage(p)};
  window.addEventListener('beforeunload',()=>clearInterval(staffTimer));
 })();
+
+// Production boot: establish authenticated cloud context before rendering any workspace.
+(async function cwjBoot(){
+ try{
+  await cloudMe();
+  if(cloudUser) await pullCloud(true);
+  render();
+  if(!cloudUser) openAuth();
+ }catch(e){
+  try{setSync('Sign in required','warn');}catch{}
+  try{render();openAuth();}catch{}
+ }
+})();
 </script>
