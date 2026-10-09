@@ -1,0 +1,68 @@
+<!-- V5 — Responsive hardening across approved role experiences; no workflow changes. -->
+<style id="cwj-responsive-v5">
+/* Shared layout resilience for narrow phones through desktop widths. */
+body.cwj-approved .main,
+body.cwj-approved .view,
+body.cwj-approved .cwj-role-shell,
+body.cwj-approved .cwj-staff-shell,
+body.cwj-approved .cwj-family-shell{min-width:0;max-width:100%}
+body.cwj-approved .headrow,
+body.cwj-approved .actions,
+body.cwj-approved .cwj-exp-head,
+body.cwj-approved .cwj-section-head{flex-wrap:wrap;min-width:0}
+body.cwj-approved .headrow>*,
+body.cwj-approved .actions>*,
+body.cwj-approved .cwj-exp-head>*,
+body.cwj-approved .cwj-section-head>*{min-width:0;max-width:100%}
+body.cwj-approved .grid,
+body.cwj-approved .kpis,
+body.cwj-approved .quickgrid,
+body.cwj-approved .two,
+body.cwj-approved .three,
+body.cwj-approved .cwj-metrics,
+body.cwj-approved .cwj-staff-grid{grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr))}
+body.cwj-approved .card,
+body.cwj-approved .item,
+body.cwj-approved .cwj-card,
+body.cwj-approved .cwj-visit,
+body.cwj-approved .cwj-staff-card,
+body.cwj-approved .cwj-staff-row,
+body.cwj-approved .cwj-family-card{min-width:0;overflow-wrap:anywhere}
+body.cwj-approved img,
+body.cwj-approved video,
+body.cwj-approved canvas,
+body.cwj-approved svg{max-width:100%}
+body.cwj-approved input,
+body.cwj-approved select,
+body.cwj-approved textarea{max-width:100%;min-width:0}
+body.cwj-approved .table-wrap,
+body.cwj-approved .table-responsive{max-width:100%;overflow-x:auto;overscroll-behavior-inline:contain}
+body.cwj-approved table{max-width:100%}
+body.cwj-approved .bottom{padding-bottom:env(safe-area-inset-bottom)}
+@media(max-width:520px){
+ body.cwj-approved .view{padding-left:12px;padding-right:12px}
+ body.cwj-approved .headrow{align-items:stretch;gap:10px}
+ body.cwj-approved .headrow>.btn,
+ body.cwj-approved .headrow>button,
+ body.cwj-approved .headrow>.actions{width:100%}
+ body.cwj-approved .headrow>.actions{display:grid;grid-template-columns:minmax(0,1fr)}
+ body.cwj-approved .grid,
+ body.cwj-approved .kpis,
+ body.cwj-approved .quickgrid,
+ body.cwj-approved .two,
+ body.cwj-approved .three,
+ body.cwj-approved .cwj-metrics,
+ body.cwj-approved .cwj-staff-grid{grid-template-columns:minmax(0,1fr)}
+ body.cwj-approved .btn{max-width:100%;white-space:normal;overflow-wrap:anywhere}
+ body.cwj-approved .searchbar,
+ body.cwj-approved .searchbox{width:100%;max-width:100%}
+}
+@media(max-width:360px){
+ body.cwj-approved .view{padding-left:10px;padding-right:10px}
+ body.cwj-approved .card,
+ body.cwj-approved .cwj-card,
+ body.cwj-approved .cwj-staff-card,
+ body.cwj-approved .cwj-family-card{padding:12px}
+ body.cwj-approved .top{padding-left:10px;padding-right:10px}
+}
+</style>
