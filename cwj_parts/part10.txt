@@ -37,7 +37,10 @@ body.cwj-approved .bottom{display:none}body.cwj-approved .fab{background:var(--c
 @media(min-width:901px){.cwj-role-nav{display:none}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
 
-/* CareWithJohn responsive role-shell corrections (2026-10-09) */
+/* CareWithJohn shared visual system and role-shell corrections (2026-10-09) */
+/* Blue is the primary interaction colour; green remains reserved for positive states. */
+.cwj-approved .btn.primary{background:var(--cwj-blue);border-color:var(--cwj-blue);color:#fff}
+.cwj-approved .btn.primary:hover{background:var(--cwj-blue-dark);border-color:var(--cwj-blue-dark)}
 body.cwj-staff-approved .top,
 body.cwj-family-approved .top{display:none!important}
 body.cwj-staff-approved .fab,
@@ -45,7 +48,7 @@ body.cwj-family-approved .fab{display:none!important}
 body.cwj-staff-approved .view,
 body.cwj-family-approved .view{min-width:0}
 body.cwj-staff-approved .cwj-role-shell,
-body.cwj-family-approved .cwj-role-shell{width:100%;min-width:0;box-sizing:border-box}
+body.cwj-family-approved .cwj-role-shell{max-width:980px;width:100%;min-width:0;box-sizing:border-box}
 body.cwj-staff-approved .cwj-role-top,
 body.cwj-family-approved .cwj-role-top{min-width:0}
 body.cwj-staff-approved .cwj-role-brand,
@@ -59,6 +62,10 @@ body.cwj-staff-approved .cwj-staff-row{min-width:0;box-sizing:border-box}
 body.cwj-staff-approved .cwj-staff-row .grow{min-width:0;overflow-wrap:anywhere}
 body.cwj-staff-approved .cwj-staff-pill{flex-shrink:0}
 body.cwj-staff-approved .cwj-link{white-space:nowrap;flex-shrink:0}
+body.cwj-staff-approved .cwj-staff-nav button.active,
+body.cwj-family-approved .cwj-family-nav button.active{color:var(--cwj-blue-dark);background:var(--cwj-sky);border-color:var(--cwj-line)}
+body.cwj-staff-approved .cwj-staff-tabs button.active,
+body.cwj-family-approved .cwj-family-date-tabs button.active{background:var(--cwj-blue);color:#fff;border-color:var(--cwj-blue)}
 body.cwj-staff-approved button:focus-visible,
 body.cwj-family-approved button:focus-visible{outline:3px solid var(--cwj-blue);outline-offset:3px}
 @media(max-width:520px){
@@ -86,7 +93,6 @@ body.cwj-family-approved button:focus-visible{outline:3px solid var(--cwj-blue);
  body.cwj-staff-approved .cwj-staff-nav button,
  body.cwj-family-approved .cwj-family-nav button{font-size:10px;padding-left:2px;padding-right:2px}
 }
-
 </style>
 <script id="cwj-approved-ui-v2-v4-js">
 (function(){
