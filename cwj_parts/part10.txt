@@ -27,7 +27,7 @@ body.cwj-approved .bottom{display:none}body.cwj-approved .fab{background:var(--c
 .cwj-role-shell{max-width:980px;margin:0 auto}.cwj-role-top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px}.cwj-role-brand{display:flex;align-items:center;gap:10px}.cwj-role-brand img{width:42px;height:42px;object-fit:contain;border-radius:12px}.cwj-role-brand b{color:var(--cwj-blue-dark)}.cwj-role-brand small{display:block;color:var(--cwj-muted);font-size:11px;margin-top:2px}.cwj-avatar{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;background:var(--cwj-sky);color:var(--cwj-blue-dark);font-weight:900;border:2px solid #fff;box-shadow:0 4px 12px rgba(16,59,88,.1)}
 .cwj-role-horizon{position:relative;overflow:hidden;border-radius:24px;background:linear-gradient(135deg,#eaf7fb,#eefaf1);padding:20px;margin-bottom:14px;border:1px solid #d8edf0}.cwj-role-horizon:after{content:"";position:absolute;left:-10%;right:-10%;bottom:-40px;height:85px;background:linear-gradient(170deg,transparent 0 28%,rgba(7,150,166,.17) 29% 50%,rgba(57,168,90,.2) 51% 75%,rgba(8,76,115,.1) 76%);border-radius:50%}.cwj-role-horizon>*{position:relative;z-index:1}
 .cwj-login-brand{width:94px;height:94px;object-fit:contain;border-radius:26px;display:block;margin:0 auto 10px}.cwj-login-role-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0}.cwj-login-role{border:1px solid var(--cwj-line);background:#fff;border-radius:14px;padding:10px 7px;font-size:11px;font-weight:800;color:var(--cwj-ink);cursor:pointer}.cwj-login-role.active{border-color:var(--cwj-blue);background:var(--cwj-sky);color:var(--cwj-blue-dark)}.cwj-login-role .ri{font-size:20px;display:block;margin-bottom:4px;color:var(--cwj-blue)}
-.cwj-approved .btn.primary{background:var(--cwj-green);border-color:var(--cwj-green);color:#fff}.cwj-approved .btn.primary:hover{background:var(--cwj-green-dark)}.cwj-approved .btn{border-radius:12px}.cwj-approved input,.cwj-approved select,.cwj-approved textarea{border-radius:12px;border-color:var(--cwj-line)}
+.cwj-approved .btn.primary{background:var(--cwj-blue);border-color:var(--cwj-blue);color:#fff}.cwj-approved .btn.primary:hover{background:var(--cwj-blue-dark)}.cwj-approved .btn{border-radius:12px}.cwj-approved input,.cwj-approved select,.cwj-approved textarea{border-radius:12px;border-color:var(--cwj-line)}
 .cwj-family-approved .cwj-family-shell,.cwj-staff-approved .cwj-staff-shell{max-width:980px;margin:0 auto}
 .cwj-family-approved .cwj-family-shell:before,.cwj-staff-approved .cwj-staff-shell:before{content:"";display:block;height:76px;margin:-4px -4px 12px;border-radius:0 0 45% 45%;background:linear-gradient(165deg,transparent 0 35%,rgba(7,150,166,.16) 36% 54%,rgba(57,168,90,.18) 55% 74%,rgba(8,76,115,.10) 75%);pointer-events:none}.cwj-family-approved .cwj-family-top,.cwj-staff-approved .cwj-staff-top{background:transparent;border:0}.cwj-family-approved .cwj-family-title h1,.cwj-staff-approved .cwj-staff-title h1{color:var(--cwj-ink)}
 .cwj-family-approved .cwj-family-hero,.cwj-staff-approved .cwj-staff-card{box-shadow:var(--cwj-shadow);border-color:var(--cwj-line)}
@@ -36,6 +36,44 @@ body.cwj-approved .bottom{display:none}body.cwj-approved .fab{background:var(--c
 @media(max-width:520px){body.cwj-approved .view{padding:18px 12px 94px}.cwj-metrics{gap:8px}.cwj-metric{padding:12px}.cwj-metric b{font-size:22px}.cwj-visit{grid-template-columns:50px 1fr auto 12px;padding:11px 10px}.cwj-visit small{font-size:11px}.cwj-more-grid{grid-template-columns:1fr}.cwj-login-role-row{grid-template-columns:1fr}.cwj-horizon,.cwj-role-horizon{border-radius:20px;padding:16px}.cwj-role-nav{left:7px;right:7px}.cwj-role-nav button{font-size:10px}.cwj-login-brand{width:84px;height:84px}}
 @media(min-width:901px){.cwj-role-nav{display:none}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
+
+/* Mobile role-shell corrections: prevent Admin chrome/actions leaking into Staff/Family. */
+body.cwj-staff-approved .top,
+body.cwj-family-approved .top{display:none!important}
+body.cwj-staff-approved .fab,
+body.cwj-family-approved .fab{display:none!important}
+body.cwj-staff-approved .main,
+body.cwj-family-approved .main{margin-left:0!important;min-width:0;width:100%}
+body.cwj-staff-approved #view,
+body.cwj-family-approved #view{min-width:0;width:100%}
+.cwj-role-shell{width:100%;min-width:0}
+.cwj-staff-approved .cwj-section-head{display:flex;align-items:center;justify-content:space-between;gap:12px;min-width:0;flex-wrap:wrap}
+.cwj-staff-approved .cwj-section-head h3{min-width:0;margin:0}
+.cwj-staff-approved .cwj-link{flex:0 0 auto;white-space:nowrap}
+.cwj-staff-approved .cwj-staff-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;min-width:0}
+.cwj-staff-approved .cwj-staff-card{min-width:0}
+.cwj-staff-approved .cwj-staff-kpi b{overflow-wrap:anywhere}
+.cwj-staff-approved .cwj-staff-row{min-width:0;max-width:100%}
+.cwj-staff-approved .cwj-staff-row .grow{min-width:0;overflow-wrap:anywhere}
+@media(max-width:520px){
+ body.cwj-staff-approved .view{padding:16px 12px calc(100px + env(safe-area-inset-bottom,0px))}
+ .cwj-staff-approved .cwj-staff-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+ .cwj-staff-approved .cwj-staff-kpi:last-child{grid-column:1/-1}
+ .cwj-staff-approved .cwj-staff-kpi{padding:13px;min-height:88px}
+ .cwj-staff-approved .cwj-staff-kpi b{font-size:25px}
+ .cwj-staff-approved .cwj-staff-kpi span{font-size:12px;line-height:1.35}
+ .cwj-staff-approved .cwj-role-horizon{padding:16px;border-radius:20px}
+ .cwj-staff-approved .cwj-role-horizon h1{font-size:clamp(25px,7vw,34px);line-height:1.15;overflow-wrap:anywhere}
+ .cwj-staff-approved .cwj-role-horizon p{font-size:14px;line-height:1.45}
+ .cwj-staff-approved .cwj-quick{gap:9px}
+ .cwj-staff-approved .cwj-quick button{min-width:0;overflow-wrap:anywhere}
+}
+@media(max-width:360px){
+ .cwj-staff-approved .cwj-staff-grid{gap:7px}
+ .cwj-staff-approved .cwj-staff-kpi{padding:11px}
+ .cwj-staff-approved .cwj-role-brand small{font-size:10px}
+ .cwj-staff-approved .cwj-role-nav button{padding:8px 2px;font-size:9px}
+}
 </style>
 <script id="cwj-approved-ui-v2-v4-js">
 (function(){
