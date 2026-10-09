@@ -36,6 +36,44 @@ body.cwj-approved .bottom{display:none}body.cwj-approved .fab{background:var(--c
 @media(max-width:520px){body.cwj-approved .view{padding:18px 12px 94px}.cwj-metrics{gap:8px}.cwj-metric{padding:12px}.cwj-metric b{font-size:22px}.cwj-visit{grid-template-columns:50px 1fr auto 12px;padding:11px 10px}.cwj-visit small{font-size:11px}.cwj-more-grid{grid-template-columns:1fr}.cwj-login-role-row{grid-template-columns:1fr}.cwj-horizon,.cwj-role-horizon{border-radius:20px;padding:16px}.cwj-role-nav{left:7px;right:7px}.cwj-role-nav button{font-size:10px}.cwj-login-brand{width:84px;height:84px}}
 @media(min-width:901px){.cwj-role-nav{display:none}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
+
+/* Mobile role-shell corrections: prevent Admin chrome/actions leaking into Staff/Family. */
+body.cwj-staff-approved .top,
+body.cwj-family-approved .top{display:none!important}
+body.cwj-staff-approved .fab,
+body.cwj-family-approved .fab{display:none!important}
+body.cwj-staff-approved .main,
+body.cwj-family-approved .main{margin-left:0!important;min-width:0;width:100%}
+body.cwj-staff-approved #view,
+body.cwj-family-approved #view{min-width:0;width:100%}
+.cwj-role-shell{width:100%;min-width:0}
+.cwj-staff-approved .cwj-section-head{display:flex;align-items:center;justify-content:space-between;gap:12px;min-width:0;flex-wrap:wrap}
+.cwj-staff-approved .cwj-section-head h3{min-width:0;margin:0}
+.cwj-staff-approved .cwj-link{flex:0 0 auto;white-space:nowrap}
+.cwj-staff-approved .cwj-staff-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;min-width:0}
+.cwj-staff-approved .cwj-staff-card{min-width:0}
+.cwj-staff-approved .cwj-staff-kpi b{overflow-wrap:anywhere}
+.cwj-staff-approved .cwj-staff-row{min-width:0;max-width:100%}
+.cwj-staff-approved .cwj-staff-row .grow{min-width:0;overflow-wrap:anywhere}
+@media(max-width:520px){
+ body.cwj-staff-approved .view{padding:16px 12px calc(100px + env(safe-area-inset-bottom,0px))}
+ .cwj-staff-approved .cwj-staff-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+ .cwj-staff-approved .cwj-staff-kpi:last-child{grid-column:1/-1}
+ .cwj-staff-approved .cwj-staff-kpi{padding:13px;min-height:88px}
+ .cwj-staff-approved .cwj-staff-kpi b{font-size:25px}
+ .cwj-staff-approved .cwj-staff-kpi span{font-size:12px;line-height:1.35}
+ .cwj-staff-approved .cwj-role-horizon{padding:16px;border-radius:20px}
+ .cwj-staff-approved .cwj-role-horizon h1{font-size:clamp(25px,7vw,34px);line-height:1.15;overflow-wrap:anywhere}
+ .cwj-staff-approved .cwj-role-horizon p{font-size:14px;line-height:1.45}
+ .cwj-staff-approved .cwj-quick{gap:9px}
+ .cwj-staff-approved .cwj-quick button{min-width:0;overflow-wrap:anywhere}
+}
+@media(max-width:360px){
+ .cwj-staff-approved .cwj-staff-grid{gap:7px}
+ .cwj-staff-approved .cwj-staff-kpi{padding:11px}
+ .cwj-staff-approved .cwj-role-brand small{font-size:10px}
+ .cwj-staff-approved .cwj-role-nav button{padding:8px 2px;font-size:9px}
+}
 </style>
 <script id="cwj-approved-ui-v2-v4-js">
 (function(){
