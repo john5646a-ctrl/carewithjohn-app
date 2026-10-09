@@ -1,0 +1,82 @@
+<!-- V1 — Shared CareWithJohn design system. CSS-only foundation; role workflows remain in existing modules. -->
+<style id="cwj-design-system-v1">
+:root{
+  /* Brand and semantic colour tokens */
+  --cwj-color-primary:#0b6fa4;
+  --cwj-color-primary-hover:#084c73;
+  --cwj-color-teal:#0796a6;
+  --cwj-color-positive:#23783d;
+  --cwj-color-positive-soft:#edf9f0;
+  --cwj-color-warning:#8b5700;
+  --cwj-color-warning-soft:#fff5df;
+  --cwj-color-danger:#b4232d;
+  --cwj-color-danger-soft:#fff0f0;
+  --cwj-color-info-soft:#eaf7fb;
+  --cwj-color-page:#f5f9fa;
+  --cwj-color-surface:#ffffff;
+  --cwj-color-ink:#103b58;
+  --cwj-color-muted:#607987;
+  --cwj-color-border:#d8e7ee;
+  --cwj-color-focus:#075985;
+  /* Type, spacing, shape and elevation tokens */
+  --cwj-font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  --cwj-text-xs:12px;--cwj-text-sm:14px;--cwj-text-base:16px;
+  --cwj-text-lg:18px;--cwj-heading-sm:22px;--cwj-heading-lg:clamp(27px,3vw,38px);
+  --cwj-space-1:4px;--cwj-space-2:8px;--cwj-space-3:12px;
+  --cwj-space-4:16px;--cwj-space-5:20px;--cwj-space-6:24px;
+  --cwj-radius-sm:10px;--cwj-radius-md:14px;--cwj-radius-card:18px;--cwj-radius-hero:24px;
+  --cwj-shadow-card:0 5px 20px rgba(16,59,88,.06);
+  --cwj-shadow-float:0 10px 30px rgba(16,59,88,.12);
+}
+body.cwj-approved{
+  font-family:var(--cwj-font-family);
+  background:var(--cwj-color-page);
+  color:var(--cwj-color-ink);
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+body.cwj-approved :where(h1,h2,h3,h4){color:var(--cwj-color-ink);line-height:1.2}
+body.cwj-approved :where(p,.muted,.cwj-muted,.cwj-family-muted,.cwj-staff-muted){color:var(--cwj-color-muted)}
+body.cwj-approved :where(.card,.cwj-card,.cwj-metric,.cwj-visit,.cwj-more-item,.cwj-staff-card,.cwj-family-card){
+  border-color:var(--cwj-color-border);
+  border-radius:var(--cwj-radius-card);
+}
+body.cwj-approved :where(input:not([type=checkbox]):not([type=radio]),select,textarea){
+  max-width:100%;min-height:44px;padding:11px 13px;
+  color:var(--cwj-color-ink);background:var(--cwj-color-surface);
+  border:1px solid var(--cwj-color-border);border-radius:var(--cwj-radius-md);
+  font:inherit;
+}
+body.cwj-approved textarea{min-height:100px;resize:vertical}
+body.cwj-approved :where(button,.btn,[role=button]){font-family:inherit;touch-action:manipulation}
+body.cwj-approved .btn.primary{
+  background:var(--cwj-color-primary);border-color:var(--cwj-color-primary);color:#fff;
+}
+body.cwj-approved .btn.primary:hover{background:var(--cwj-color-primary-hover);border-color:var(--cwj-color-primary-hover)}
+body.cwj-approved :where(.btn.success,.cwj-button-positive){background:var(--cwj-color-positive);border-color:var(--cwj-color-positive);color:#fff}
+body.cwj-approved :where(.badge.good,.cwj-status:not(.warn):not(.bad),.cwj-staff-pill.good,.cwj-family-pill.good){
+  background:var(--cwj-color-positive-soft);color:var(--cwj-color-positive);
+}
+body.cwj-approved :where(.badge.warn,.cwj-status.warn,.cwj-staff-pill.warn,.cwj-family-pill.warn){
+  background:var(--cwj-color-warning-soft);color:var(--cwj-color-warning);
+}
+body.cwj-approved :where(.badge.bad,.cwj-status.bad,.cwj-staff-pill.bad,.cwj-family-pill.bad){
+  background:var(--cwj-color-danger-soft);color:var(--cwj-color-danger);
+}
+body.cwj-approved :where(a,.cwj-link){color:var(--cwj-color-primary)}
+body.cwj-approved :where(button,a,input,select,textarea,[tabindex]):focus-visible{
+  outline:3px solid var(--cwj-color-focus);outline-offset:3px;
+}
+body.cwj-approved :where(button:disabled,input:disabled,select:disabled,textarea:disabled){
+  cursor:not-allowed;opacity:.65;
+}
+body.cwj-approved img{max-width:100%}
+@media(max-width:520px){
+  body.cwj-approved :where(input:not([type=checkbox]):not([type=radio]),select,textarea){font-size:16px}
+}
+@media(prefers-reduced-motion:reduce){
+  body.cwj-approved *,body.cwj-approved *::before,body.cwj-approved *::after{
+    scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;
+  }
+}
+</style>
