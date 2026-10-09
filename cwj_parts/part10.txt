@@ -93,66 +93,6 @@ body.cwj-family-approved button:focus-visible{outline:3px solid var(--cwj-blue);
  body.cwj-staff-approved .cwj-staff-nav button,
  body.cwj-family-approved .cwj-family-nav button{font-size:10px;padding-left:2px;padding-right:2px}
 }
-
-/* V1 — shared CareWithJohn design-system foundation.
-   Token aliases are scoped to the approved app shell so the frozen legacy
-   implementation remains available for rollback and non-approved states. */
-body.cwj-approved{
- --bg:#f7fbfd;
- --surface:#ffffff;
- --ink:var(--cwj-ink);
- --muted:var(--cwj-muted);
- --line:var(--cwj-line);
- --brand:var(--cwj-blue);
- --brand2:var(--cwj-blue-dark);
- --soft:var(--cwj-sky);
- --blue:var(--cwj-blue);
- --danger:var(--cwj-danger);
- --shadow:var(--cwj-shadow);
- --radius:var(--cwj-radius);
- color:var(--cwj-ink);
-}
-body.cwj-approved :where(button,a,input,select,textarea,[tabindex]):focus-visible{
- outline:3px solid #0796a6;
- outline-offset:3px;
-}
-body.cwj-approved :where(button,a){-webkit-tap-highlight-color:rgba(11,111,164,.12)}
-body.cwj-approved :where(button:disabled,[aria-disabled="true"]){
- cursor:not-allowed;
- opacity:.62;
-}
-body.cwj-approved :where(input,select,textarea){
- color:var(--cwj-ink);
- background:#fff;
- border:1px solid var(--cwj-line);
-}
-body.cwj-approved :where(input,select,textarea)::placeholder{color:#718894;opacity:1}
-body.cwj-approved :where(input,select,textarea):focus-visible{
- border-color:var(--cwj-teal);
- box-shadow:0 0 0 3px rgba(7,150,166,.13);
- outline:none;
-}
-body.cwj-approved :where(.card,.cwj-card,.cwj-staff-card,.cwj-family-card,.modal-card){
- border-color:var(--cwj-line);
- border-radius:var(--cwj-radius);
- box-shadow:var(--cwj-shadow);
-}
-body.cwj-approved :where(.badge,.pill,.cwj-status,.cwj-staff-pill,.cwj-family-pill){
- border-radius:999px;
- font-weight:800;
-}
-body.cwj-approved :where(.alert,.notice,.warning,.error,.success){
- border-radius:14px;
-}
-body.cwj-approved :where(.success,.good,.positive){--state-color:var(--cwj-green-dark)}
-body.cwj-approved :where(.warning,.warn){--state-color:#8b5700}
-body.cwj-approved :where(.error,.danger,.bad){--state-color:var(--cwj-danger)}
-body.cwj-approved :where(.success,.good,.positive,.warning,.warn,.error,.danger,.bad){
- color:var(--state-color);
-}
-@media(forced-colors:active){
- body.cwj-approved :where(button,a,input,select,textarea):focus-visible{outline:2px solid Highlight}
-}
 </style>
 <script id="cwj-approved-ui-v2-v4-js">
 (function(){
