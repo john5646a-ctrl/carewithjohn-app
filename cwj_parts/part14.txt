@@ -1,0 +1,62 @@
+<!-- V4 — Family / Client visual alignment. CSS-only; role distinctions, data visibility and workflows remain unchanged. -->
+<style id="cwj-family-v4">
+/* Family and Client share this presentation layer only; backend roles remain distinct. */
+body.cwj-approved.cwj-family-approved .cwj-family-shell{
+  width:min(100%,980px);padding:clamp(12px,2.5vw,24px);
+  color:var(--cwj-color-ink);
+}
+body.cwj-approved.cwj-family-approved .cwj-family-top{
+  padding:10px 0 16px;margin-bottom:16px;gap:12px;align-items:center;
+  border-bottom:1px solid var(--cwj-color-border);
+}
+body.cwj-approved.cwj-family-approved .cwj-family-title{
+  color:var(--cwj-color-ink);font-size:clamp(24px,4vw,32px);
+  line-height:1.2;letter-spacing:-.4px;font-weight:800;
+}
+body.cwj-approved.cwj-family-approved .cwj-family-hero{
+  border:1px solid #cfe8e9;border-radius:22px;
+  background:linear-gradient(135deg,#eaf7fb 0%,#edf9f0 100%);
+  padding:clamp(18px,3vw,28px);box-shadow:var(--cwj-shadow-card);
+  color:var(--cwj-color-ink);overflow-wrap:anywhere;
+}
+body.cwj-approved.cwj-family-approved .cwj-family-card{
+  background:var(--cwj-color-surface);border:1px solid var(--cwj-color-border);
+  border-radius:var(--cwj-radius-card);padding:16px;
+  box-shadow:var(--cwj-shadow-card);min-width:0;overflow-wrap:anywhere;
+}
+body.cwj-approved.cwj-family-approved .cwj-family-muted{
+  color:var(--cwj-color-muted);line-height:1.55;
+}
+body.cwj-approved.cwj-family-approved .cwj-family-pill{
+  display:inline-flex;align-items:center;justify-content:center;gap:5px;
+  min-height:28px;padding:5px 10px;border-radius:999px;font-size:12px;font-weight:750;
+}
+body.cwj-approved.cwj-family-approved .cwj-family-nav,
+body.cwj-approved.cwj-family-approved .cwj-family-date-tabs{
+  display:flex;gap:8px;flex-wrap:wrap;
+}
+body.cwj-approved.cwj-family-approved .cwj-family-nav button,
+body.cwj-approved.cwj-family-approved .cwj-family-date-tabs button,
+body.cwj-approved.cwj-family-approved .cwj-family-shell button{
+  min-height:44px;border-radius:12px;
+}
+body.cwj-approved.cwj-family-approved .cwj-family-shell input,
+body.cwj-approved.cwj-family-approved .cwj-family-shell select,
+body.cwj-approved.cwj-family-approved .cwj-family-shell textarea{
+  min-height:44px;max-width:100%;border:1px solid var(--cwj-color-border);
+  border-radius:12px;padding:10px 12px;
+}
+body.cwj-approved.cwj-family-approved .cwj-family-shell :focus-visible{
+  outline:3px solid #0796a6;outline-offset:2px;
+}
+@media(max-width:700px){
+ body.cwj-approved.cwj-family-approved .cwj-family-shell{padding:12px 10px 96px}
+ body.cwj-approved.cwj-family-approved .cwj-family-hero{border-radius:18px;padding:18px}
+ body.cwj-approved.cwj-family-approved .cwj-family-nav,
+ body.cwj-approved.cwj-family-approved .cwj-family-date-tabs{gap:6px}
+ body.cwj-approved.cwj-family-approved .cwj-family-card button{width:100%}
+}
+@media(prefers-reduced-motion:reduce){
+ body.cwj-approved.cwj-family-approved .cwj-family-shell *{scroll-behavior:auto!important;transition:none!important}
+}
+</style>
