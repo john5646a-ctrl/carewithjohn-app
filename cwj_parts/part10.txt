@@ -37,6 +37,91 @@ body.cwj-approved .bottom{display:none}body.cwj-approved .fab{background:var(--c
 @media(min-width:901px){.cwj-role-nav{display:none}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
 </style>
+
+/* V1 — Shared CareWithJohn design system. Additive tokens and reusable primitives only.
+   Scoped to the approved UI classes so legacy screens and role/security logic are untouched. */
+<style id="cwj-design-system-v1">
+:root{
+ --cwj-color-primary:#0b6fa4;
+ --cwj-color-primary-hover:#084c73;
+ --cwj-color-teal:#0796a6;
+ --cwj-color-positive:#23783d;
+ --cwj-color-positive-surface:#edf9f0;
+ --cwj-color-info-surface:#eaf7fb;
+ --cwj-color-warning:#8b5a05;
+ --cwj-color-warning-surface:#fff5df;
+ --cwj-color-danger:#a92f36;
+ --cwj-color-danger-surface:#fff0f0;
+ --cwj-color-text:#103b58;
+ --cwj-color-text-muted:#607987;
+ --cwj-color-surface:#fff;
+ --cwj-color-page:#f5f9f9;
+ --cwj-color-border:#d8e7ee;
+ --cwj-radius-sm:10px;
+ --cwj-radius-md:14px;
+ --cwj-radius-card:18px;
+ --cwj-radius-hero:24px;
+ --cwj-space-1:4px;
+ --cwj-space-2:8px;
+ --cwj-space-3:12px;
+ --cwj-space-4:16px;
+ --cwj-space-5:20px;
+ --cwj-space-6:24px;
+ --cwj-space-8:32px;
+ --cwj-shadow-card:0 8px 28px rgba(16,59,88,.08);
+ --cwj-shadow-raised:0 10px 30px rgba(16,59,88,.12);
+ --cwj-focus-ring:0 0 0 3px rgba(11,111,164,.25);
+ --cwj-font-body:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+}
+body.cwj-approved,body.cwj-staff-approved,body.cwj-family-approved{
+ font-family:var(--cwj-font-body);
+ color:var(--cwj-color-text);
+}
+body.cwj-approved *,body.cwj-staff-approved *,body.cwj-family-approved *{box-sizing:border-box}
+body.cwj-approved :is(button,a,input,select,textarea,[tabindex]):focus-visible,
+body.cwj-staff-approved :is(button,a,input,select,textarea,[tabindex]):focus-visible,
+body.cwj-family-approved :is(button,a,input,select,textarea,[tabindex]):focus-visible{
+ outline:3px solid var(--cwj-color-primary);outline-offset:2px;
+}
+body.cwj-approved :is(.cwj-card,.cwj-metric,.cwj-visit,.cwj-quick button,.cwj-more-item),
+body.cwj-staff-approved :is(.cwj-staff-card,.cwj-staff-row),
+body.cwj-family-approved :is(.cwj-family-card,.cwj-family-hero){
+ border-radius:var(--cwj-radius-card);
+}
+body.cwj-approved :is(input,select,textarea),
+body.cwj-staff-approved :is(input,select,textarea),
+body.cwj-family-approved :is(input,select,textarea){
+ min-height:44px;font:inherit;color:var(--cwj-color-text);background:var(--cwj-color-surface);
+ border:1px solid var(--cwj-color-border);border-radius:var(--cwj-radius-md);padding:10px 12px;
+}
+body.cwj-approved :is(button,.btn),
+body.cwj-staff-approved :is(button,.btn),
+body.cwj-family-approved :is(button,.btn){font-family:var(--cwj-font-body);touch-action:manipulation}
+body.cwj-approved .btn.primary,
+body.cwj-staff-approved .btn.primary,
+body.cwj-family-approved .btn.primary{
+ background:var(--cwj-color-positive);border-color:var(--cwj-color-positive);color:#fff;
+}
+body.cwj-approved .btn.primary:hover,
+body.cwj-staff-approved .btn.primary:hover,
+body.cwj-family-approved .btn.primary:hover{background:#1c6332;border-color:#1c6332}
+.cwj-ds-card{background:var(--cwj-color-surface);border:1px solid var(--cwj-color-border);border-radius:var(--cwj-radius-card);box-shadow:var(--cwj-shadow-card);padding:var(--cwj-space-5)}
+.cwj-ds-eyebrow{font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--cwj-color-teal)}
+.cwj-ds-muted{color:var(--cwj-color-text-muted)}
+.cwj-ds-status{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:5px 10px;font-size:12px;font-weight:800;background:var(--cwj-color-info-surface);color:var(--cwj-color-primary-hover)}
+.cwj-ds-status.is-positive{background:var(--cwj-color-positive-surface);color:var(--cwj-color-positive)}
+.cwj-ds-status.is-warning{background:var(--cwj-color-warning-surface);color:var(--cwj-color-warning)}
+.cwj-ds-status.is-danger{background:var(--cwj-color-danger-surface);color:var(--cwj-color-danger)}
+.cwj-ds-button{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:10px 16px;border:1px solid var(--cwj-color-border);border-radius:12px;background:#fff;color:var(--cwj-color-text);font:700 14px var(--cwj-font-body);cursor:pointer}
+.cwj-ds-button.is-primary{background:var(--cwj-color-primary);border-color:var(--cwj-color-primary);color:#fff}
+.cwj-ds-button.is-positive{background:var(--cwj-color-positive);border-color:var(--cwj-color-positive);color:#fff}
+@media(max-width:520px){
+ .cwj-ds-card{padding:var(--cwj-space-4);border-radius:var(--cwj-radius-md)}
+}
+@media(prefers-reduced-motion:reduce){
+ body.cwj-approved *,body.cwj-staff-approved *,body.cwj-family-approved *{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+}
+</style>
 <script id="cwj-approved-ui-v2-v4-js">
 (function(){
  const APPROVED=['Home','Schedule','Clients','Team','More'];
