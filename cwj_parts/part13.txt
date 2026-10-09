@@ -1,0 +1,76 @@
+<!-- V3 — Staff / Team Member visual alignment. CSS-only; staff workflows and permissions remain unchanged. -->
+<style id="cwj-staff-v3">
+/* Staff-only scope: never alter Admin or Family/Client experiences. */
+body.cwj-approved.cwj-staff-approved .cwj-staff-shell{
+  width:min(100%,980px);padding:clamp(12px,2.5vw,24px);
+  color:var(--cwj-color-ink);
+}
+body.cwj-approved.cwj-staff-approved .cwj-staff-top{
+  padding:12px 0 16px;border-bottom:1px solid var(--cwj-color-border);
+  margin-bottom:18px;align-items:center;gap:12px;
+}
+body.cwj-approved.cwj-staff-approved .cwj-staff-title{
+  color:var(--cwj-color-ink);font-size:clamp(24px,4vw,32px);
+  line-height:1.18;letter-spacing:-.4px;font-weight:800;
+}
+body.cwj-approved.cwj-staff-approved .cwj-staff-section{
+  color:var(--cwj-color-ink);font-weight:800;font-size:16px;
+  margin:20px 0 10px;
+}
+body.cwj-approved.cwj-staff-approved .cwj-staff-card{
+  background:var(--cwj-color-surface);border:1px solid var(--cwj-color-border);
+  border-radius:var(--cwj-radius-card);padding:16px;
+  box-shadow:var(--cwj-shadow-card);min-width:0;
+}
+body.cwj-approved.cwj-staff-approved .cwj-staff-grid{
+  gap:12px;min-width:0;
+}
+body.cwj-approved.cwj-staff-approved .cwj-staff-kpi{
+  border:1px solid var(--cwj-color-border);border-radius:var(--cwj-radius-md);
+  background:var(--cwj-color-surface);padding:14px;min-width:0;
+}
+body.cwj-approved.cwj-staff-approved .cwj-staff-list{
+  display:grid;gap:10px;min-width:0;
+}
+body.cwj-approved.cwj-staff-approved .cwj-staff-row{
+  min-width:0;overflow-wrap:anywhere;background:var(--cwj-color-surface);
+  border:1px solid var(--cwj-color-border);border-radius:var(--cwj-radius-md);
+  padding:14px;gap:12px;
+}
+body.cwj-approved.cwj-staff-approved .cwj-staff-muted{
+  color:var(--cwj-color-muted);line-height:1.5;
+}
+body.cwj-approved.cwj-staff-approved .cwj-staff-pill{
+  display:inline-flex;align-items:center;justify-content:center;gap:5px;
+  min-height:28px;padding:5px 10px;border-radius:999px;font-size:12px;font-weight:750;
+}
+body.cwj-approved.cwj-staff-approved .cwj-staff-nav,
+body.cwj-approved.cwj-staff-approved .cwj-staff-tabs{
+  display:flex;gap:8px;flex-wrap:wrap;
+}
+body.cwj-approved.cwj-staff-approved .cwj-staff-nav button,
+body.cwj-approved.cwj-staff-approved .cwj-staff-tabs button,
+body.cwj-approved.cwj-staff-approved .cwj-staff-shell button{
+  min-height:44px;border-radius:12px;
+}
+body.cwj-approved.cwj-staff-approved .cwj-staff-shell input,
+body.cwj-approved.cwj-staff-approved .cwj-staff-shell select,
+body.cwj-approved.cwj-staff-approved .cwj-staff-shell textarea{
+  min-height:44px;max-width:100%;border:1px solid var(--cwj-color-border);
+  border-radius:12px;padding:10px 12px;
+}
+body.cwj-approved.cwj-staff-approved .cwj-staff-shell :focus-visible{
+  outline:3px solid #0796a6;outline-offset:2px;
+}
+@media(max-width:700px){
+ body.cwj-approved.cwj-staff-approved .cwj-staff-shell{padding:12px 10px 96px}
+ body.cwj-approved.cwj-staff-approved .cwj-staff-grid{grid-template-columns:minmax(0,1fr)}
+ body.cwj-approved.cwj-staff-approved .cwj-staff-row{align-items:stretch;flex-direction:column}
+ body.cwj-approved.cwj-staff-approved .cwj-staff-row button{width:100%}
+ body.cwj-approved.cwj-staff-approved .cwj-staff-nav,
+ body.cwj-approved.cwj-staff-approved .cwj-staff-tabs{gap:6px}
+}
+@media(prefers-reduced-motion:reduce){
+ body.cwj-approved.cwj-staff-approved .cwj-staff-shell *{scroll-behavior:auto!important;transition:none!important}
+}
+</style>
