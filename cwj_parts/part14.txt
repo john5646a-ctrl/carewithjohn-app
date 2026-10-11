@@ -15,7 +15,7 @@ body.cwj-approved.cwj-family-approved .cwj-family-title{
 }
 body.cwj-approved.cwj-family-approved .cwj-family-hero{
   border:1px solid #cfe8e9;border-radius:22px;
-  background:linear-gradient(135deg,#eaf7fb 0%,#edf9f0 100%);
+  background:linear-gradient(135deg,#eaf6fb 0%,#edf9f0 100%);
   padding:clamp(18px,3vw,28px);box-shadow:var(--cwj-shadow-card);
   color:var(--cwj-color-ink);overflow-wrap:anywhere;
 }
@@ -47,7 +47,7 @@ body.cwj-approved.cwj-family-approved .cwj-family-shell textarea{
   border-radius:12px;padding:10px 12px;
 }
 body.cwj-approved.cwj-family-approved .cwj-family-shell :focus-visible{
-  outline:3px solid #0796a6;outline-offset:2px;
+  outline:3px solid #12a3a5;outline-offset:2px;
 }
 @media(max-width:700px){
  body.cwj-approved.cwj-family-approved .cwj-family-shell{padding:12px 10px 96px}
