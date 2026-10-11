@@ -62,6 +62,8 @@ assert.ok(!loginUi.includes("data-role=\"admin\"") && !loginUi.includes("data-ro
   "role access must come from verified account membership, not a client-side login toggle");
 assert.ok(loginUi.includes("Your CareWithJohn account and organisation membership determine the access you receive."),
   "login must explain that the account membership determines access");
+assert.ok(!loginUi.includes('onclick="closeAuth()"'), "unauthenticated users must not be able to dismiss the required sign-in gate");
+assert.ok(loginUi.includes("body.cwj-approved:has(#authModal.show) main"), "unauthenticated sign-in must hide the underlying app shell");
 
 const adminCss = read("cwj_parts/part12.txt");
 const staffCss = read("cwj_parts/part13.txt");
