@@ -16,6 +16,10 @@ assert.ok(loader, "index loader loop exists");
 const partCount = Number(loader[1]);
 assert.equal(partCount, 16, "loader should load all 16 committed parts");
 
+assert.match(index, /cwj_parts\/part/ , "loader must request cwj_parts resources");
+assert.match(index, /cache:'no-store'/, "loader must bypass browser HTTP cache for build parts");
+assert.match(index, /Build part '\+i\+' failed/, "loader must reject non-success responses instead of silently rendering partial content");
+assert.match(index, /Build loading failed/, "loader must show an explicit error when a required part fails");
 const cacheVersion = index.match(/\?v=([0-9.]+)/)?.[1];
 assert.equal(cacheVersion, "29.0.0", "loader cache version should match the current release");
 
@@ -25,6 +29,12 @@ for (let i = 1; i <= partCount; i++) {
   const content = read(file);
   assert.ok(content.length > 0, `empty build part: ${file}`);
 }
+
+const primaryUi = read("cwj_parts/part10.txt");
+const primaryStyle = primaryUi.match(/<style\b[^>]*>([\s\S]*?)<\/style>/i)?.[1];
+assert.ok(primaryStyle, "part10 primary UI style block must close");
+assert.equal((primaryStyle.match(/{/g) || []).length, (primaryStyle.match(/}/g) || []).length,
+  "part10 primary UI CSS braces must balance independently of its JavaScript");
 
 for (let i = 11; i <= 16; i++) {
   const file = `cwj_parts/part${String(i).padStart(2, "0")}.txt`;
@@ -62,6 +72,26 @@ assert.match(staffCss, /body\.cwj-approved\.cwj-staff-approved/,
   "Staff styling must be role-scoped");
 assert.match(familyCss, /body\.cwj-approved\.cwj-family-approved/,
   "Family/Client styling must be role-scoped");
+
+
+const approvedVisualParts = [10, 11, 12, 13, 14, 15, 16]
+  .map((n) => read(`cwj_parts/part${String(n).padStart(2, "0")}.txt`))
+  .join("\n");
+for (const brandColour of ["#0B2D52", "#087F88", "#12A3A5", "#4A9B45", "#EAF6FB"]) {
+  assert.ok(approvedVisualParts.toLowerCase().includes(brandColour.toLowerCase()),
+    `approved CareWithJohn brand colour missing from visual layer: ${brandColour}`);
+}
+const allPartStyleContent = Array.from({ length: partCount }, (_, index) =>
+  read(`cwj_parts/part${String(index + 1).padStart(2, "0")}.txt`)).join("\n");
+const allStyleIds = [...allPartStyleContent.matchAll(/<style\b[^>]*\bid=["']([^"']+)["'][^>]*>/gi)]
+  .map((match) => match[1]);
+assert.equal(new Set(allStyleIds).size, allStyleIds.length,
+  "all committed application parts must not duplicate style element IDs");
+
+const styleIds = [...approvedVisualParts.matchAll(/<style\b[^>]*\bid=["']([^"']+)["'][^>]*>/gi)]
+  .map((match) => match[1]);
+assert.equal(new Set(styleIds).size, styleIds.length,
+  "approved visual layer must not contain duplicate style element IDs");
 
 console.log("CareWithJohn static regression checks: PASS");
 console.log(`Validated ${partCount} build parts, loader/cache consistency, CSS integrity, role separation and login hydration guard.`);

@@ -2,7 +2,7 @@
 <style id="cwj-accessibility-v6">
 /* Keyboard focus must remain obvious across all three role experiences. */
 body.cwj-approved :focus-visible{
-  outline:3px solid #0796a6!important;outline-offset:3px!important;
+  outline:3px solid #12a3a5!important;outline-offset:3px!important;
   box-shadow:0 0 0 2px #fff!important;
 }
 body.cwj-approved button,
