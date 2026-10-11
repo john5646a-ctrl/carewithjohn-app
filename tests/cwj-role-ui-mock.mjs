@@ -88,9 +88,11 @@ try {
       let signedIn = false;
       const page = await browser.newPage({ viewport: { width, height: width === 768 ? 1024 : 844 } });
       const pageErrors = [];
+      const consoleErrors = [];
       const partResponses = new Map();
       const apiRequests = [];
       page.on("pageerror", (error) => pageErrors.push(error.message));
+      page.on("console", (message) => { if (message.type() === "error") consoleErrors.push(message.text()); });
       page.on("response", (response) => {
         const match = response.url().match(/\/cwj_parts\/(part\d+\.txt)(?:\?|$)/);
         if (match) partResponses.set(match[1], response.status());
@@ -133,7 +135,12 @@ try {
       });
 
       await page.goto(`http://${host}:${port}/`, { waitUntil: "domcontentloaded", timeout: 30000 });
-      await page.waitForSelector("#authEmail", { state: "visible", timeout: 30000 });
+      try {
+        await page.waitForSelector("#authEmail", { state: "visible", timeout: 15000 });
+      } catch (error) {
+        console.error(JSON.stringify({ stage: "auth-modal", role, width, pageErrors, consoleErrors, body: (await page.locator("body").innerText().catch(() => "")).slice(0, 1200) }));
+        throw error;
+      }
       await page.locator("#authEmail").fill(user.email);
       await page.locator("#authPassword").fill("mock-test-password");
       await page.locator('button[onclick="loginCloud()"]').click();
