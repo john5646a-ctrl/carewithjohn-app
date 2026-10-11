@@ -1,0 +1,32 @@
+name: CareWithJohn authenticated role-state integration
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  live-role-state:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      CWJ_API_BASE: ${{ vars.CWJ_API_BASE || 'https://fjxiqkqrnkmnohzvmnss.supabase.co/functions/v1/cwj-api' }}
+      CWJ_TEST_STAFF_TOKEN: ${{ secrets.CWJ_TEST_STAFF_TOKEN }}
+      CWJ_TEST_CLIENT_TOKEN: ${{ secrets.CWJ_TEST_CLIENT_TOKEN }}
+      CWJ_TEST_FAMILY_TOKEN: ${{ secrets.CWJ_TEST_FAMILY_TOKEN }}
+      CWJ_TEST_ADMIN_TOKEN: ${{ secrets.CWJ_TEST_ADMIN_TOKEN }}
+      CWJ_TEST_STAFF_ASSIGNED_CLIENT_ID: ${{ vars.CWJ_TEST_STAFF_ASSIGNED_CLIENT_ID }}
+      CWJ_TEST_STAFF_UNASSIGNED_CLIENT_ID: ${{ vars.CWJ_TEST_STAFF_UNASSIGNED_CLIENT_ID }}
+      CWJ_TEST_CLIENT_ID: ${{ vars.CWJ_TEST_CLIENT_ID }}
+      CWJ_TEST_FAMILY_LINKED_CLIENT_ID: ${{ vars.CWJ_TEST_FAMILY_LINKED_CLIENT_ID }}
+      CWJ_TEST_FAMILY_PENDING_CLIENT_ID: ${{ vars.CWJ_TEST_FAMILY_PENDING_CLIENT_ID }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Require dedicated test identities and fixture IDs
+        run: |
+          for name in CWJ_TEST_STAFF_TOKEN CWJ_TEST_CLIENT_TOKEN CWJ_TEST_FAMILY_TOKEN CWJ_TEST_STAFF_ASSIGNED_CLIENT_ID CWJ_TEST_STAFF_UNASSIGNED_CLIENT_ID CWJ_TEST_CLIENT_ID CWJ_TEST_FAMILY_LINKED_CLIENT_ID CWJ_TEST_FAMILY_PENDING_CLIENT_ID; do
+            if [ -z "${!name}" ]; then echo "::error::Missing protected test configuration: $name"; exit 2; fi
+          done
+      - name: Verify authenticated role projections and isolation
+        run: node tests/cwj-role-state-live.mjs
