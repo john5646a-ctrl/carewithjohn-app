@@ -10,6 +10,10 @@ assert.ok(loader, "index loader loop exists");
 const partCount = Number(loader[1]);
 assert.equal(partCount, 16, "loader should load all 16 committed parts");
 
+assert.match(index, /cwj_parts\/part/ , "loader must request cwj_parts resources");
+assert.match(index, /cache:'no-store'/, "loader must bypass browser HTTP cache for build parts");
+assert.match(index, /Build part '\+i\+' failed/, "loader must reject non-success responses instead of silently rendering partial content");
+assert.match(index, /Build loading failed/, "loader must show an explicit error when a required part fails");
 const cacheVersion = index.match(/\?v=([0-9.]+)/)?.[1];
 assert.equal(cacheVersion, "29.0.0", "loader cache version should match the current release");
 
@@ -59,6 +63,12 @@ for (const brandColour of ["#0B2D52", "#087F88", "#12A3A5", "#4A9B45", "#EAF6FB"
   assert.ok(approvedVisualParts.toLowerCase().includes(brandColour.toLowerCase()),
     `approved CareWithJohn brand colour missing from visual layer: ${brandColour}`);
 }
+const allPartStyleContent = Array.from({ length: partCount }, (_, index) =>
+  read(`cwj_parts/part${String(index + 1).padStart(2, "0")}.txt`)).join("\n");
+const htmlIds = [...allPartStyleContent.matchAll(/\bid=["']([^"']+)["']/gi)].map((match) => match[1]);
+const duplicateIds = htmlIds.filter((id, index) => htmlIds.indexOf(id) !== index);
+assert.deepEqual([...new Set(duplicateIds)], [],
+  "all committed application parts must not duplicate HTML IDs");
 const styleIds = [...approvedVisualParts.matchAll(/<style\b[^>]*\bid=["']([^"']+)["'][^>]*>/gi)]
   .map((match) => match[1]);
 assert.equal(new Set(styleIds).size, styleIds.length,
