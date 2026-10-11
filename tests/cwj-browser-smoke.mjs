@@ -24,12 +24,14 @@ try {
     const consoleErrors = [];
     const resourceErrors = [];
     const partResponses = new Map();
+    let expectedAuth401Seen = false;
 
     page.on("pageerror", (error) => pageErrors.push(error.message));
     page.on("console", (message) => {
       if (message.type() === "error") consoleErrors.push(message.text());
     });
     page.on("response", (response) => {
+      if (response.url().includes("/auth/me") && response.status() === 401) expectedAuth401Seen = true;
       const match = response.url().match(/\/cwj_parts\/(part\d+\.txt)(?:\?|$)/);
       if (match) {
         partResponses.set(match[1], response.status());
@@ -102,9 +104,10 @@ try {
     if (missingParts.length) failures.push(`${viewport.width}px: missing/non-200 app parts: ${missingParts.join(", ")}`);
     if (resourceErrors.length) failures.push(`${viewport.width}px: resource errors: ${resourceErrors.join("; ")}`);
     if (pageErrors.length) failures.push(`${viewport.width}px: JavaScript errors: ${pageErrors.join("; ")}`);
-    if (consoleErrors.length) failures.push(`${viewport.width}px: console errors: ${consoleErrors.join("; ")}`);
+    const unexpectedConsoleErrors = consoleErrors.filter((message) => !(expectedAuth401Seen && message.includes("status of 401")));
+    if (unexpectedConsoleErrors.length) failures.push(`${viewport.width}px: console errors: ${unexpectedConsoleErrors.join("; ")}`);
 
-    console.log(JSON.stringify({ viewport, metrics, partsLoaded: partResponses.size, pageErrors, consoleErrors, resourceErrors }));
+    console.log(JSON.stringify({ viewport, metrics, apiChecks, expectedAuth401Seen, partsLoaded: partResponses.size, pageErrors, consoleErrors, unexpectedConsoleErrors, resourceErrors }));
     await page.close();
   }
 } finally {
