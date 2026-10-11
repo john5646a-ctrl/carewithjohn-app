@@ -180,7 +180,7 @@ try {
       if (width === 390) {
         await page.screenshot({ path: path.join(artifactsDir, `role-${role}-390px.png`), fullPage: true });
       }
-      console.log(JSON.stringify({ role, width, bodyClass: metrics.bodyClass, documentWidth: metrics.documentWidth, partsLoaded: partResponses.size, pageErrors, roleStateError: metrics.roleStateError, roleStateSummary: metrics.roleStateSummary, bodyPreview: metrics.bodyPreview }));
+      console.log(JSON.stringify({ role, width, bodyClass: metrics.bodyClass, documentWidth: metrics.documentWidth, partsLoaded: partResponses.size, apiRequests, viewText: metrics.viewText, pageErrors, roleStateError: metrics.roleStateError, roleStateSummary: metrics.roleStateSummary, bodyPreview: metrics.bodyPreview }));
       await page.close();
     }
   }
