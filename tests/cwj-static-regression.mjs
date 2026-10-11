@@ -23,7 +23,7 @@ assert.match(index, /Build loading failed/, "loader must show an explicit error 
 const authUiParts = [9, 10].map((n) => read(`cwj_parts/part${String(n).padStart(2, "0")}.txt`)).join("\n");
 assert.match(authUiParts, /authModal|authEmail|authPassword/, "app parts must retain the sign-in form entry point");
 const liveWorkflow = read(".github/workflows/cwj-live-smoke.yml");
-for (const requiredStep of ["workflow_dispatch", "tests/cwj-live-pages-smoke.mjs", "tests/cwj-browser-smoke.mjs", "actions/upload-artifact@v4"]) {
+for (const requiredStep of ["workflow_dispatch", "tests/cwj-live-pages-smoke.mjs", "tests/cwj-browser-smoke.mjs", "actions/upload-artifact@v4", "vars.CWJ_APP_URL"]) {
   assert.ok(liveWorkflow.includes(requiredStep), `live release smoke workflow missing required entry: ${requiredStep}`);
 }
 const browserSmoke = read("tests/cwj-browser-smoke.mjs");
