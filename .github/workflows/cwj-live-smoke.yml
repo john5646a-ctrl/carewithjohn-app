@@ -15,6 +15,8 @@ jobs:
   live-release-smoke:
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    env:
+      CWJ_APP_URL: ${{ vars.CWJ_APP_URL || 'https://john5646a-ctrl.github.io/carewithjohn-app/' }}
     steps:
       - name: Check out source
         uses: actions/checkout@v4
