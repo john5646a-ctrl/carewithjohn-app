@@ -104,7 +104,11 @@ try {
     if (missingParts.length) failures.push(`${viewport.width}px: missing/non-200 app parts: ${missingParts.join(", ")}`);
     if (resourceErrors.length) failures.push(`${viewport.width}px: resource errors: ${resourceErrors.join("; ")}`);
     if (pageErrors.length) failures.push(`${viewport.width}px: JavaScript errors: ${pageErrors.join("; ")}`);
-    const unexpectedConsoleErrors = consoleErrors.filter((message) => !(expectedAuth401Seen && message.includes("status of 401")));
+    const unexpectedConsoleErrors = [...consoleErrors];
+    if (apiChecks?.unauthenticatedStatus === 401 && apiChecks?.unauthenticatedBody?.error === "Not authenticated.") {
+      const expected401Index = unexpectedConsoleErrors.findIndex((message) => message.includes("status of 401"));
+      if (expected401Index >= 0) unexpectedConsoleErrors.splice(expected401Index, 1);
+    }
     if (unexpectedConsoleErrors.length) failures.push(`${viewport.width}px: console errors: ${unexpectedConsoleErrors.join("; ")}`);
 
     console.log(JSON.stringify({ viewport, metrics, apiChecks, expectedAuth401Seen, partsLoaded: partResponses.size, pageErrors, consoleErrors, unexpectedConsoleErrors, resourceErrors }));
