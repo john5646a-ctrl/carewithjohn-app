@@ -6,6 +6,15 @@ import "./cwj-edge-cors.mjs";
 
 const root = process.cwd();
 const read = (file) => fs.readFileSync(path.join(root, file), "utf8");
+const apiSource = read("supabase/functions/cwj-api/index.ts");
+assert.match(apiSource, /"Cache-Control":"no-store, private"/,
+  "personalised API responses must not be cached by browsers or intermediaries");
+assert.match(apiSource, /"Pragma":"no-cache"/,
+  "personalised API responses must send legacy no-cache protection");
+assert.match(apiSource, /"Vary":"Origin, Authorization"/,
+  "API responses must vary by both request origin and authorisation context");
+assert.match(apiSource, /"Cache-Control":"no-store"/,
+  "API preflight responses must not be cached");
 const liveSmokeSyntax = spawnSync(process.execPath, ["--check", path.join(root, "tests/cwj-live-pages-smoke.mjs")], { encoding: "utf8" });
 assert.equal(liveSmokeSyntax.status, 0, `live Pages smoke script syntax error: ${liveSmokeSyntax.stderr}`);
 const browserSmokeSyntax = spawnSync(process.execPath, ["--check", path.join(root, "tests/cwj-browser-smoke.mjs")], { encoding: "utf8" });
