@@ -144,12 +144,14 @@ try {
         bodyWidth: document.body.scrollWidth,
         viewportWidth: window.innerWidth,
         bodyClass: document.body.className,
+        roleStateError: window.__cwjRoleStateError || '',
         authVisible: Boolean(document.querySelector("#authModal.show")),
         buildFailed: document.body.innerText.includes("Build loading failed"),
       }));
       if (!metrics.bodyClass.includes("cwj-approved")) failures.push(`${role} @ ${width}px: approved body class missing`);
       if (metrics.authVisible) failures.push(`${role} @ ${width}px: sign-in modal did not close after mocked sign-in`);
       if (metrics.buildFailed) failures.push(`${role} @ ${width}px: loader failed`);
+      if (metrics.roleStateError) failures.push(`${role} @ ${width}px: role-state load failed: ${metrics.roleStateError}`);
       if (metrics.documentWidth > width || metrics.bodyWidth > width) failures.push(`${role} @ ${width}px: horizontal overflow (document ${metrics.documentWidth}, body ${metrics.bodyWidth})`);
       if (pageErrors.length) failures.push(`${role} @ ${width}px: JavaScript errors: ${pageErrors.join("; ")}`);
       const missingParts = Array.from({ length: 16 }, (_, index) => `part${String(index + 1).padStart(2, "0")}.txt`).filter((name) => partResponses.get(name) !== 200);
