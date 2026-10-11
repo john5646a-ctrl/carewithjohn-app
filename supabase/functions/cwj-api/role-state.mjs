@@ -119,6 +119,7 @@ function projectStaff(state, result, user, organisationId) {
   const assignedJobIds = new Set(jobs.map((job) => text(job.id)).filter(Boolean));
   result.messages = arr(state.messages).filter((message) => {
     const clientId = clientIdOf(message);
+    if (message.visibleToStaff === false) return false;
     // A direct recipient match must never bypass the assigned-client boundary.
     if (clientId && !clientIds.has(clientId)) return false;
     if (userIdOf(message) === uid || senderIdOf(message) === uid || recipientIdOf(message) === uid) return true;
