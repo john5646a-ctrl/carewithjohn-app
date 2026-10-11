@@ -114,8 +114,10 @@ function projectStaff(state, result, user, organisationId) {
   ).map(safeClientForStaff);
   result.tasks = arr(state.tasks).filter((task) => {
     if (!inOrganisation(task, organisationId)) return false;
+    const clientId = clientIdOf(task);
+    if (clientId && !clientIds.has(clientId)) return false;
     const assigned = text(task.assigneeUserId ?? task.assignedUserId ?? task.userId ?? task.user_id);
-    return assigned === uid || clientIds.has(clientIdOf(task));
+    return assigned === uid || Boolean(clientId && clientIds.has(clientId));
   }).map((task) => pick(task, ["id", "title", "name", "description", "status", "dueDate", "due_date", "clientId", "client_id", "jobId", "job_id", "assignedUserId", "assigneeUserId", "priority"]));
   result.documents = arr(state.documents).filter((doc) => {
     if (!inOrganisation(doc, organisationId)) return false;
@@ -137,12 +139,17 @@ function projectStaff(state, result, user, organisationId) {
       message.visibleToStaff !== false &&
       ["team", "staff", "shared"].includes(visibility);
   }).map(safeMessage);
-  result.notifications = arr(state.notifications).filter((notice) =>
-    inOrganisation(notice, organisationId) && recipientIdOf(notice) === uid
-  ).map((notice) => pick(notice, ["id", "notificationType", "notification_type", "title", "body", "severity", "readAt", "read_at", "createdAt", "created_at"]));
-  result.activity = arr(state.activity).filter((event) =>
-    inOrganisation(event, organisationId) && (userIdOf(event) === uid || senderIdOf(event) === uid)
-  ).map((event) => pick(event, ["id", "type", "title", "detail", "createdAt", "created_at", "userId", "user_id"]));
+  result.notifications = arr(state.notifications).filter((notice) => {
+    if (!inOrganisation(notice, organisationId) || recipientIdOf(notice) !== uid) return false;
+    const clientId = clientIdOf(notice);
+    return !clientId || clientIds.has(clientId);
+  }).map((notice) => pick(notice, ["id", "notificationType", "notification_type", "title", "body", "severity", "readAt", "read_at", "createdAt", "created_at"]));
+  result.activity = arr(state.activity).filter((event) => {
+    if (!inOrganisation(event, organisationId)) return false;
+    const clientId = clientIdOf(event);
+    if (clientId && !clientIds.has(clientId)) return false;
+    return userIdOf(event) === uid || senderIdOf(event) === uid;
+  }).map((event) => pick(event, ["id", "type", "title", "detail", "createdAt", "created_at", "userId", "user_id"]));
   return result;
 }
 
@@ -243,9 +250,10 @@ function projectFamily(state, result, user, organisationId, role) {
 
   result.notifications = arr(state.notifications).filter((notice) => {
     if (!inOrganisation(notice, organisationId)) return false;
-    if (recipientIdOf(notice) === text(user?.id)) return true;
     const clientId = clientIdOf(notice);
-    return clientIds.has(clientId) && allows(clientPermissions(clientId), "notifications");
+    if (clientId && !clientIds.has(clientId)) return false;
+    if (recipientIdOf(notice) === text(user?.id)) return true;
+    return Boolean(clientId && clientIds.has(clientId)) && allows(clientPermissions(clientId), "notifications");
   }).map((notice) => pick(notice, ["id", "notificationType", "notification_type", "title", "body", "severity", "readAt", "read_at", "createdAt", "created_at"]));
   return result;
 }
