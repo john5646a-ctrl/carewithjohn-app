@@ -60,7 +60,7 @@ body.cwj-approved.cwj-staff-approved .cwj-staff-shell textarea{
   border-radius:12px;padding:10px 12px;
 }
 body.cwj-approved.cwj-staff-approved .cwj-staff-shell :focus-visible{
-  outline:3px solid #0796a6;outline-offset:2px;
+  outline:3px solid #12a3a5;outline-offset:2px;
 }
 @media(max-width:700px){
  body.cwj-approved.cwj-staff-approved .cwj-staff-shell{padding:12px 10px 96px}
