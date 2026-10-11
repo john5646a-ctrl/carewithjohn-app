@@ -3,6 +3,7 @@ import path from "node:path";
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
 import "./cwj-edge-cors.mjs";
+import "./cwj-role-state.mjs";
 
 const root = process.cwd();
 const read = (file) => fs.readFileSync(path.join(root, file), "utf8");
@@ -10,6 +11,10 @@ const liveSmokeSyntax = spawnSync(process.execPath, ["--check", path.join(root, 
 assert.equal(liveSmokeSyntax.status, 0, `live Pages smoke script syntax error: ${liveSmokeSyntax.stderr}`);
 const browserSmokeSyntax = spawnSync(process.execPath, ["--check", path.join(root, "tests/cwj-browser-smoke.mjs")], { encoding: "utf8" });
 assert.equal(browserSmokeSyntax.status, 0, `browser smoke script syntax error: ${browserSmokeSyntax.stderr}`);
+const roleUiMockSyntax = spawnSync(process.execPath, ["--check", path.join(root, "tests/cwj-role-ui-mock.mjs")], { encoding: "utf8" });
+assert.equal(roleUiMockSyntax.status, 0, `role UI mock script syntax error: ${roleUiMockSyntax.stderr}`);
+const liveRoleStateSyntax = spawnSync(process.execPath, ["--check", path.join(root, "tests/cwj-role-state-live.mjs")], { encoding: "utf8" });
+assert.equal(liveRoleStateSyntax.status, 0, `live role-state script syntax error: ${liveRoleStateSyntax.stderr}`);
 const index = read("index.html");
 const loader = index.match(/for\(let i=1;i<=(\d+);i\+\+\)/);
 assert.ok(loader, "index loader loop exists");
@@ -51,6 +56,14 @@ for (let i = 11; i <= 16; i++) {
   assert.match(css, /<\/style>/i, `${file} style block must close`);
   assert.equal((css.match(/{/g) || []).length, (css.match(/}/g) || []).length, `${file} CSS braces must balance`);
 }
+
+const apiSource = read("supabase/functions/cwj-api/index.ts");
+assert.match(apiSource, /"Cache-Control":"no-store, private"/,
+  "authenticated API responses must not be cached by browsers or shared intermediaries");
+assert.match(apiSource, /"Vary":"Origin, Authorization"/,
+  "API responses must vary on the request origin and authorization context");
+assert.match(apiSource, /"Cache-Control":"no-store"/,
+  "CORS preflight responses must not be cached");
 
 const roles = read("cwj_parts/part06.txt");
 for (const role of ["admin_owner", "staff_member", "client", "family_member"]) {

@@ -435,11 +435,11 @@ function team(c){
  function familyUserName(){const u=cloudUser||{};return String(u.full_name||u.name||u.display_name||u.email||'').trim()}
  function familyRole(){const r=currentRole();return r===CWJ_ROLES.CLIENT||r===CWJ_ROLES.FAMILY_MEMBER}
  function familyActorLabel(){const raw=String(cloudUser?.role||currentMembership()?.role||'').toLowerCase();return raw.includes('family')?'Family Member':'Client'}
- function familyLinkedRelationships(){const ctx=currentAccessContext();return (ctx.relationships||[]).filter(r=>r.status!=='revoked'&&r.status!=='disabled')}
+ function familyLinkedRelationships(){const ctx=currentAccessContext();return (ctx.relationships||[]).filter(r=>String(r.status||'').toLowerCase()==='active')}
  function familyClientIds(){return [...new Set(familyLinkedRelationships().filter(r=>String(r.resourceType||'').toLowerCase()==='client').map(r=>String(r.resourceId)))]}
  function familyClients(){const ids=familyClientIds();return (db.clients||[]).filter(c=>ids.includes(String(c.id)))}
  function familyAuthorisedClient(id){return familyClientIds().includes(String(id))}
- function familyJobs(){return (db.jobs||[]).filter(j=>familyAuthorisedClient(j.clientId||j.personId||j.client_id||'')&&!['cancelled'].includes(String(j.status||'').toLowerCase())).sort((a,b)=>(String(a.date||'')+String(a.time||'')).localeCompare(String(b.date||'')+String(b.time||'')))}
+ function familyJobs(){return (db.jobs||[]).filter(j=>familyAuthorisedClient(j.clientId||j.personId||j.client_id||'')&&!['cancelled'].includes(String(j.status||'').toLowerCase())).map(j=>{const client=familyClientForVisit(j);return {...j,name:j.name||j.clientName||familyClientName(client)}}).sort((a,b)=>(String(a.date||'')+String(a.time||'')).localeCompare(String(b.date||'')+String(b.time||'')))}
  function familyVisit(id){return familyJobs().find(j=>String(j.id)===String(id))||null}
  function familyInitials(){const n=familyUserName()||'Family';return n.split(/\s+/).map(x=>x[0]).join('').slice(0,2).toUpperCase()||'FW'}
  function familyClientName(c){return c?.name||c?.full_name||'Person you support'}

@@ -16,5 +16,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22
+      - name: Run role-state projection security tests
+        run: node tests/cwj-role-state.mjs
       - name: Run static regression checks
         run: node tests/cwj-static-regression.mjs
