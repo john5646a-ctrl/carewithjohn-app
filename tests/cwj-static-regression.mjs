@@ -47,6 +47,14 @@ for (let i = 11; i <= 16; i++) {
   assert.equal((css.match(/{/g) || []).length, (css.match(/}/g) || []).length, `${file} CSS braces must balance`);
 }
 
+const apiSource = read("supabase/functions/cwj-api/index.ts");
+assert.match(apiSource, /"Cache-Control":"no-store, private"/,
+  "authenticated API responses must not be cached by browsers or shared intermediaries");
+assert.match(apiSource, /"Vary":"Origin, Authorization"/,
+  "API responses must vary on the request origin and authorization context");
+assert.match(apiSource, /"Cache-Control":"no-store"/,
+  "CORS preflight responses must not be cached");
+
 const roles = read("cwj_parts/part06.txt");
 for (const role of ["admin_owner", "staff_member", "client", "family_member"]) {
   assert.ok(roles.includes(role), `canonical role missing: ${role}`);
