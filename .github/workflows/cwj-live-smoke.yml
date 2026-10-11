@@ -1,6 +1,14 @@
 name: CareWithJohn live release smoke
 on:
   workflow_dispatch:
+  pull_request:
+    branches: [main]
+    paths:
+      - "index.html"
+      - "cwj_parts/**"
+      - "tests/cwj-browser-smoke.mjs"
+      - "tests/cwj-live-pages-smoke.mjs"
+      - ".github/workflows/cwj-live-smoke.yml"
   push:
     branches: [main]
     paths:
@@ -29,6 +37,7 @@ jobs:
       - name: Install Chromium
         run: npx playwright install --with-deps chromium
       - name: Verify deployed GitHub Pages files match this commit
+        if: github.event_name != 'pull_request'
         run: node tests/cwj-live-pages-smoke.mjs
       - name: Verify live sign-in shell, API health and unauthenticated access boundaries
         run: node tests/cwj-browser-smoke.mjs
