@@ -2,22 +2,22 @@
 <style id="cwj-design-system-v1">
 :root{
   /* Brand and semantic colour tokens */
-  --cwj-color-primary:#0b6fa4;
-  --cwj-color-primary-hover:#084c73;
-  --cwj-color-teal:#0796a6;
-  --cwj-color-positive:#23783d;
+  --cwj-color-primary:#087f88;
+  --cwj-color-primary-hover:#0b2d52;
+  --cwj-color-teal:#12a3a5;
+  --cwj-color-positive:#4a9b45;
   --cwj-color-positive-soft:#edf9f0;
   --cwj-color-warning:#8b5700;
   --cwj-color-warning-soft:#fff5df;
   --cwj-color-danger:#b4232d;
   --cwj-color-danger-soft:#fff0f0;
-  --cwj-color-info-soft:#eaf7fb;
+  --cwj-color-info-soft:#eaf6fb;
   --cwj-color-page:#f5f9fa;
   --cwj-color-surface:#ffffff;
-  --cwj-color-ink:#103b58;
+  --cwj-color-ink:#0b2d52;
   --cwj-color-muted:#607987;
   --cwj-color-border:#d8e7ee;
-  --cwj-color-focus:#075985;
+  --cwj-color-focus:#12a3a5;
   /* Type, spacing, shape and elevation tokens */
   --cwj-font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
   --cwj-text-xs:12px;--cwj-text-sm:14px;--cwj-text-base:16px;
