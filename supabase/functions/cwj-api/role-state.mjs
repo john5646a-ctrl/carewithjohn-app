@@ -83,6 +83,10 @@ function safeMessage(message) {
   return pick(message, ["id", "clientId", "client_id", "personId", "person_id", "senderId", "sender_id", "recipientId", "recipient_id", "senderName", "sender_name", "body", "status", "createdAt", "created_at", "readAt", "read_at"]);
 }
 
+function safeExternalMessage(message) {
+  return pick(message, ["id", "clientId", "client_id", "personId", "person_id", "senderName", "sender_name", "body", "status", "createdAt", "created_at", "readAt", "read_at"]);
+}
+
 function projectStaff(state, result, user, organisationId) {
   const uid = text(user?.id);
   const email = lower(user?.email);
@@ -240,7 +244,7 @@ function projectFamily(state, result, user, organisationId, role) {
     if (message.visibleToClient === false || message.visibleToFamily === false ||
         message.internal === true || message.isInternal === true || internalVisibility) return false;
     return allows(clientPermissions(clientId), "messages") || allows(clientPermissions(clientId), "communications");
-  }).map(safeMessage);
+  }).map(safeExternalMessage);
 
   result.tasks = arr(state.tasks).filter((task) => {
     if (!inOrganisation(task, organisationId)) return false;
