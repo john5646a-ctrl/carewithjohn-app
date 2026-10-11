@@ -24,6 +24,12 @@ for (let i = 1; i <= partCount; i++) {
   assert.ok(content.length > 0, `empty build part: ${file}`);
 }
 
+const primaryUi = read("cwj_parts/part10.txt");
+const primaryStyle = primaryUi.match(/<style\\b[^>]*>([\\s\\S]*?)<\\/style>/i)?.[1];
+assert.ok(primaryStyle, "part10 primary UI style block must close");
+assert.equal((primaryStyle.match(/{/g) || []).length, (primaryStyle.match(/}/g) || []).length,
+  "part10 primary UI CSS braces must balance independently of its JavaScript");
+
 for (let i = 11; i <= 16; i++) {
   const file = `cwj_parts/part${String(i).padStart(2, "0")}.txt`;
   const css = read(file);
