@@ -1,0 +1,35 @@
+name: CareWithJohn mocked role UI smoke
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "cwj_parts/**"
+      - "supabase/functions/cwj-api/**"
+      - "tests/cwj-role-state.mjs"
+      - "tests/cwj-role-ui-mock.mjs"
+      - ".github/workflows/cwj-role-ui-mock.yml"
+permissions:
+  contents: read
+jobs:
+  role-ui-smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install Playwright
+        run: npm install --no-save playwright
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+      - name: Run synthetic role UI journeys
+        run: node tests/cwj-role-ui-mock.mjs
+      - name: Upload role screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: carewithjohn-role-ui-mock
+          path: artifacts/role-*.png
+          if-no-files-found: warn
+          retention-days: 14
