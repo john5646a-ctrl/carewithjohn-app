@@ -221,5 +221,5 @@ if (failures.length) {
   for (const failure of failures) console.error(`- ${failure}`);
   process.exitCode = 1;
 } else {
-  console.log("CareWithJohn mocked role UI smoke: PASS — all four role experiences rendered at 320, 390 and 768px using synthetic identities and server projection fixtures.");
+  console.log("CareWithJohn mocked role UI smoke: PASS — all four role experiences and navigation journeys passed at 320, 360, 375, 390, 414, 768, 1024 and 1440px using synthetic identities and server projection fixtures.");
 }
