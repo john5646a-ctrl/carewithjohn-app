@@ -435,7 +435,7 @@ function team(c){
  function familyUserName(){const u=cloudUser||{};return String(u.full_name||u.name||u.display_name||u.email||'').trim()}
  function familyRole(){const r=currentRole();return r===CWJ_ROLES.CLIENT||r===CWJ_ROLES.FAMILY_MEMBER}
  function familyActorLabel(){const raw=String(cloudUser?.role||currentMembership()?.role||'').toLowerCase();return raw.includes('family')?'Family Member':'Client'}
- function familyLinkedRelationships(){const ctx=currentAccessContext();return (ctx.relationships||[]).filter(r=>r.status!=='revoked'&&r.status!=='disabled')}
+ function familyLinkedRelationships(){const ctx=currentAccessContext();return (ctx.relationships||[]).filter(r=>String(r.status||'').toLowerCase()==='active')}
  function familyClientIds(){return [...new Set(familyLinkedRelationships().filter(r=>String(r.resourceType||'').toLowerCase()==='client').map(r=>String(r.resourceId)))]}
  function familyClients(){const ids=familyClientIds();return (db.clients||[]).filter(c=>ids.includes(String(c.id)))}
  function familyAuthorisedClient(id){return familyClientIds().includes(String(id))}
