@@ -187,6 +187,27 @@ try {
       if (width === 390) {
         await page.screenshot({ path: path.join(artifactsDir, `role-${role}-390px.png`), fullPage: true });
       }
+      if (role === "staff_member") {
+        await page.evaluate(() => window.showPage("Schedule"));
+        await page.waitForTimeout(80);
+        const scheduleText = await page.locator("#view").innerText();
+        if (!scheduleText.includes("Assigned Client")) failures.push(`Staff @ ${width}px: assigned visit missing after opening schedule`);
+        await page.evaluate(() => window.showPage("Clients"));
+        await page.waitForTimeout(80);
+        const clientsText = await page.locator("#view").innerText();
+        if (!clientsText.includes("Assigned Client")) failures.push(`Staff @ ${width}px: assigned client missing after opening clients`);
+        if (clientsText.includes("Other Client")) failures.push(`Staff @ ${width}px: unrelated client appeared in clients view`);
+      }
+      if (role === "client" || role === "family_member") {
+        await page.evaluate(() => window.showPage("Visits"));
+        await page.waitForTimeout(80);
+        const visitsText = await page.locator("#view").innerText();
+        if (!visitsText.includes("Assigned Client")) failures.push(`${role} @ ${width}px: linked visit missing after opening visits`);
+        if (visitsText.includes("Other Client")) failures.push(`${role} @ ${width}px: unlinked client appeared in visits view`);
+        await page.evaluate(() => window.showPage("Messages"));
+        await page.waitForTimeout(80);
+        if (pageErrors.length) failures.push(`${role} @ ${width}px: JavaScript errors during role navigation: ${pageErrors.join("; ")}`);
+      }
       console.log(JSON.stringify({ role, width, bodyClass: metrics.bodyClass, documentWidth: metrics.documentWidth, partsLoaded: partResponses.size, apiRequests, viewText: metrics.viewText, pageErrors, roleStateError: metrics.roleStateError, roleStateSummary: metrics.roleStateSummary, bodyPreview: metrics.bodyPreview }));
       await page.close();
     }
