@@ -4,11 +4,11 @@ const SUPABASE_URL=Deno.env.get("SUPABASE_URL")!;
 const configuredOrigins=(Deno.env.get("APP_ALLOWED_ORIGINS")||"").split(",").map(x=>x.trim()).filter(Boolean);
 const defaultOrigins=["https://john5646a-ctrl.github.io"];
 const allowedOrigins=[...new Set([...configuredOrigins,...defaultOrigins])];
-const response=(req:Request,body:unknown,status=200)=>new Response(JSON.stringify(body),{status,headers:{...corsHeaders(req,allowedOrigins),"Content-Type":"application/json"}});
+const response=(req:Request,body:unknown,status=200)=>new Response(JSON.stringify(body),{status,headers:{...corsHeaders(req,allowedOrigins),"Content-Type":"application/json","Cache-Control":"no-store, private","Pragma":"no-cache","Vary":"Origin, Authorization"}});
 const userClient=(req:Request)=>createClient(SUPABASE_URL,Deno.env.get("SUPABASE_PUBLISHABLE_KEY")||Deno.env.get("SUPABASE_ANON_KEY")!,{global:{headers:{Authorization:req.headers.get("Authorization")||""}}});
 const adminClient=()=>{const raw=Deno.env.get("SUPABASE_SECRET_KEYS");let key="";try{key=JSON.parse(raw||"{}").default||""}catch{};if(!key)key=Deno.env.get("SUPABASE_SECRET_KEY")||Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")||"";if(!key)throw new Error("Server secret key is not configured.");return createClient(SUPABASE_URL,key);};
 Deno.serve(async(req)=>{
- if(req.method==="OPTIONS")return new Response("ok",{headers:corsHeaders(req,allowedOrigins)});
+ if(req.method==="OPTIONS")return new Response("ok",{headers:{...corsHeaders(req,allowedOrigins),"Cache-Control":"no-store","Vary":"Origin"}});
  const pathname=new URL(req.url).pathname;
  const path=pathname.replace(/^\/functions\/v1\/cwj-api/,"").replace(/^\/cwj-api/,"")||"/";
  try{
