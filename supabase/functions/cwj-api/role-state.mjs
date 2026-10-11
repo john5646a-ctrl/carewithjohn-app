@@ -116,10 +116,18 @@ function projectStaff(state, result, user, organisationId) {
     const visibility = lower(doc.visibility);
     return clientIds.has(clientIdOf(doc)) && ["team", "shared"].includes(visibility);
   }).map(safeDocument);
+  const assignedJobIds = new Set(jobs.map((job) => text(job.id)).filter(Boolean));
   result.messages = arr(state.messages).filter((message) => {
-    if (senderIdOf(message) === uid || recipientIdOf(message) === uid) return true;
+    const clientId = clientIdOf(message);
+    // A direct recipient match must never bypass the assigned-client boundary.
+    if (clientId && !clientIds.has(clientId)) return false;
+    if (userIdOf(message) === uid || senderIdOf(message) === uid || recipientIdOf(message) === uid) return true;
+    const visitId = text(message.visitId ?? message.visit_id ?? message.jobId ?? message.job_id);
+    if (visitId && assignedJobIds.has(visitId)) return true;
     const visibility = lower(message.visibility ?? message.audience ?? message.messageType ?? message.message_type);
-    return clientIds.has(clientIdOf(message)) && ["team", "staff", "shared"].includes(visibility);
+    return Boolean(clientId) && clientIds.has(clientId) &&
+      message.visibleToStaff !== false &&
+      ["team", "staff", "shared"].includes(visibility);
   }).map(safeMessage);
   result.notifications = arr(state.notifications).filter((notice) => recipientIdOf(notice) === uid)
     .map((notice) => pick(notice, ["id", "notificationType", "notification_type", "title", "body", "severity", "readAt", "read_at", "createdAt", "created_at"]));
@@ -205,6 +213,10 @@ function projectFamily(state, result, user, organisationId, role) {
   result.messages = arr(state.messages).filter((message) => {
     const clientId = clientIdOf(message);
     if (!clientIds.has(clientId)) return false;
+    const visibility = lower(message.visibility ?? message.audience ?? message.messageType ?? message.message_type);
+    const internalVisibility = ["internal", "staff", "team", "staff_only", "internal_staff"].includes(visibility);
+    if (message.visibleToClient === false || message.visibleToFamily === false ||
+        message.internal === true || message.isInternal === true || internalVisibility) return false;
     return allows(clientPermissions(clientId), "messages") || allows(clientPermissions(clientId), "communications");
   }).map(safeMessage);
 
