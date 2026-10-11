@@ -157,6 +157,7 @@ try {
         roleStateSummary: window.__cwjRoleStateSummary || null,
         bodyPreview: document.body.innerText.slice(0, 600),
         authVisible: Boolean(document.querySelector("#authModal.show")),
+        familyBrandVisible: Boolean(document.querySelector('.cwj-family-brand img')?.getClientRects().length),
         drawerOpen: [...document.querySelectorAll('.drawer, [class*="drawer"]')].some(el => { const r=el.getBoundingClientRect(), s=getComputedStyle(el); return (el.classList.contains('open') || (s.position==='fixed' && r.height>100 && r.top<innerHeight && r.bottom>innerHeight-80)) && s.visibility!=='hidden' && s.display!=='none'; }),
         buildFailed: document.body.innerText.includes("Build loading failed"),
         viewText: (document.getElementById("view")?.innerText || "").slice(0, 700),
@@ -177,6 +178,7 @@ try {
         if (metrics.bodyText.includes("Other Client") || metrics.bodyText.includes("Other Worker")) failures.push(`Staff @ ${width}px: unrelated client or staff was visible`);
       }
       if (role === "family_member" || role === "client") {
+        if (!metrics.familyBrandVisible || !metrics.bodyText.includes("CareWithJohn")) failures.push(`${role} @ ${width}px: approved CareWithJohn brand lockup is missing`);
         if (!metrics.bodyText.includes("Assigned Client")) failures.push(`${role} @ ${width}px: linked client was not visible`);
         if (metrics.bodyText.includes("Other Client")) failures.push(`${role} @ ${width}px: unlinked/pending client was visible`);
         if (metrics.bodyText.includes("Internal visit note") || metrics.bodyText.includes("Private staff note") || metrics.bodyText.includes("Private family message")) {
