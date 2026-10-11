@@ -10,6 +10,10 @@ const liveSmokeSyntax = spawnSync(process.execPath, ["--check", path.join(root, 
 assert.equal(liveSmokeSyntax.status, 0, `live Pages smoke script syntax error: ${liveSmokeSyntax.stderr}`);
 const browserSmokeSyntax = spawnSync(process.execPath, ["--check", path.join(root, "tests/cwj-browser-smoke.mjs")], { encoding: "utf8" });
 assert.equal(browserSmokeSyntax.status, 0, `browser smoke script syntax error: ${browserSmokeSyntax.stderr}`);
+const rlsMigrationSyntax = spawnSync(process.execPath, ["--check", path.join(root, "tests/cwj-rls-migration-static.mjs")], { encoding: "utf8" });
+assert.equal(rlsMigrationSyntax.status, 0, `RLS migration test script syntax error: ${rlsMigrationSyntax.stderr}`);
+const rlsMigrationTest = spawnSync(process.execPath, [path.join(root, "tests/cwj-rls-migration-static.mjs")], { encoding: "utf8" });
+assert.equal(rlsMigrationTest.status, 0, `RLS migration policy guard failed: ${rlsMigrationTest.stderr}`);
 const index = read("index.html");
 const loader = index.match(/for\(let i=1;i<=(\d+);i\+\+\)/);
 assert.ok(loader, "index loader loop exists");
