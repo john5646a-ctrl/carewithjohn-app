@@ -83,10 +83,10 @@ const artifactsDir = path.join(root, "artifacts");
 fs.mkdirSync(artifactsDir, { recursive: true });
 try {
   for (const role of ["admin_owner", "staff_member", "client", "family_member"]) {
-    for (const width of [320, 390, 768]) {
+    for (const width of [320, 360, 375, 390, 414, 768, 1024, 1440]) {
       const user = roleUsers[role];
       let signedIn = false;
-      const page = await browser.newPage({ viewport: { width, height: width === 768 ? 1024 : 844 } });
+      const page = await browser.newPage({ viewport: { width, height: width === 768 || width === 1024 ? 1024 : 844 } });
       const pageErrors = [];
       const consoleErrors = [];
       const partResponses = new Map();
