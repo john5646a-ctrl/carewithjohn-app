@@ -145,6 +145,8 @@ try {
         viewportWidth: window.innerWidth,
         bodyClass: document.body.className,
         roleStateError: window.__cwjRoleStateError || '',
+        roleStateSummary: window.__cwjRoleStateSummary || null,
+        bodyPreview: document.body.innerText.slice(0, 600),
         authVisible: Boolean(document.querySelector("#authModal.show")),
         buildFailed: document.body.innerText.includes("Build loading failed"),
       }));
@@ -175,7 +177,7 @@ try {
       if (width === 390) {
         await page.screenshot({ path: path.join(artifactsDir, `role-${role}-390px.png`), fullPage: true });
       }
-      console.log(JSON.stringify({ role, width, bodyClass: metrics.bodyClass, documentWidth: metrics.documentWidth, partsLoaded: partResponses.size, pageErrors }));
+      console.log(JSON.stringify({ role, width, bodyClass: metrics.bodyClass, documentWidth: metrics.documentWidth, partsLoaded: partResponses.size, pageErrors, roleStateError: metrics.roleStateError, roleStateSummary: metrics.roleStateSummary, bodyPreview: metrics.bodyPreview }));
       await page.close();
     }
   }
