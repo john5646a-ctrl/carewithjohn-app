@@ -116,9 +116,11 @@ function projectStaff(state, result, user, organisationId) {
     const visibility = lower(doc.visibility);
     return clientIds.has(clientIdOf(doc)) && ["team", "shared"].includes(visibility);
   }).map(safeDocument);
-  result.messages = arr(state.messages).filter((message) =>
-    senderIdOf(message) === uid || recipientIdOf(message) === uid || clientIds.has(clientIdOf(message))
-  ).map(safeMessage);
+  result.messages = arr(state.messages).filter((message) => {
+    if (senderIdOf(message) === uid || recipientIdOf(message) === uid) return true;
+    const visibility = lower(message.visibility ?? message.audience ?? message.messageType ?? message.message_type);
+    return clientIds.has(clientIdOf(message)) && ["team", "staff", "shared"].includes(visibility);
+  }).map(safeMessage);
   result.notifications = arr(state.notifications).filter((notice) => recipientIdOf(notice) === uid)
     .map((notice) => pick(notice, ["id", "notificationType", "notification_type", "title", "body", "severity", "readAt", "read_at", "createdAt", "created_at"]));
   result.activity = arr(state.activity).filter((event) => userIdOf(event) === uid || senderIdOf(event) === uid)
