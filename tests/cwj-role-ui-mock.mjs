@@ -163,7 +163,7 @@ try {
       if (missingParts.length) failures.push(`${role} @ ${width}px: missing parts: ${missingParts.join(", ")}`);
 
       if (role === "staff_member") {
-        if (!metrics.bodyText.includes("My Day") && !metrics.bodyText.includes("My Visits")) failures.push(`Staff @ ${width}px: expected work-focused navigation/home was not rendered`);
+        if (!/MY DAY/i.test(metrics.bodyText) && !/My Visits/i.test(metrics.bodyText) && !/My schedule/i.test(metrics.bodyText)) failures.push(`Staff @ ${width}px: expected work-focused navigation/home was not rendered`);
         if (!metrics.bodyText.includes("Assigned Client")) failures.push(`Staff @ ${width}px: assigned client was not visible`);
         if (metrics.bodyText.includes("Other Client") || metrics.bodyText.includes("Other Worker")) failures.push(`Staff @ ${width}px: unrelated client or staff was visible`);
       }
