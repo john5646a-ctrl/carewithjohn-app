@@ -54,12 +54,12 @@ assert.match(familyCss, /body\.cwj-approved\.cwj-family-approved/,
 
 const approvedVisualParts = [10, 11, 12, 13, 14, 15, 16]
   .map((n) => read(`cwj_parts/part${String(n).padStart(2, "0")}.txt`))
-  .join("\\n");
+  .join("\n");
 for (const brandColour of ["#0B2D52", "#087F88", "#12A3A5", "#4A9B45", "#EAF6FB"]) {
   assert.ok(approvedVisualParts.toLowerCase().includes(brandColour.toLowerCase()),
     `approved CareWithJohn brand colour missing from visual layer: ${brandColour}`);
 }
-const styleIds = [...approvedVisualParts.matchAll(/<style\\b[^>]*\\bid=["']([^"']+)["'][^>]*>/gi)]
+const styleIds = [...approvedVisualParts.matchAll(/<style\b[^>]*\bid=["']([^"']+)["'][^>]*>/gi)]
   .map((match) => match[1]);
 assert.equal(new Set(styleIds).size, styleIds.length,
   "approved visual layer must not contain duplicate style element IDs");
