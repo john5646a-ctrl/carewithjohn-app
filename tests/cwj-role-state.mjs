@@ -23,9 +23,9 @@ const state = {
   ],
   invoices: [{ id: "inv-1", amount: 1000 }],
   expenses: [{ id: "exp-1", amount: 500 }],
-  messages: [{ id: "m-1", clientId: "c-1", body: "Not explicitly shared with staff" }, { id: "m-2", clientId: "c-1", recipientId: "staff-1", body: "Direct staff message" }, { id: "m-3", clientId: "c-2", body: "Other client message" }, { id: "m-4", clientId: "c-2", recipientId: "staff-1", body: "Direct message for an unrelated client" }, { id: "m-5", clientId: "c-1", recipientId: "staff-1", body: "Explicitly hidden from Staff", visibleToStaff: false }],
+  messages: [{ id: "m-1", clientId: "c-1", body: "Not explicitly shared with staff" }, { id: "m-2", clientId: "c-1", recipientId: "staff-1", body: "Direct staff message" }, { id: "m-3", clientId: "c-2", body: "Other client message" }, { id: "m-4", clientId: "c-2", recipientId: "staff-1", body: "Direct message for an unrelated client" }, { id: "m-5", clientId: "c-1", recipientId: "staff-1", body: "Explicitly hidden from Staff", visibleToStaff: false }, { id: "m-6", organisationId: "org-2", recipientId: "staff-1", body: "Other organisation direct message" }],
   documents: [{ id: "d-1", clientId: "c-1", name: "Team document", visibility: "team", storage_path: "private/path" }, { id: "d-2", clientId: "c-2", name: "Other document", visibility: "team" }],
-  notifications: [{ id: "n-1", recipientId: "staff-1", title: "Own alert" }, { id: "n-2", recipientId: "staff-2", title: "Other alert" }],
+  notifications: [{ id: "n-1", recipientId: "staff-1", title: "Own alert" }, { id: "n-2", recipientId: "staff-2", title: "Other alert" }, { id: "n-3", organisationId: "org-2", recipientId: "staff-1", title: "Other organisation alert" }],
 };
 
 const staff = projectRoleState(state, "staff_member", user, "org-1");
@@ -49,10 +49,11 @@ const familyState = {
     { id: "r-2", organisationId: "org-1", userId: "family-1", resourceType: "client", resourceId: "c-2", status: "pending", permissions: { location: true, documents: true } },
     { id: "r-3", organisationId: "org-1", userId: "family-2", resourceType: "client", resourceId: "c-2", status: "active", permissions: { location: true } },
   ],
-  documents: [{ id: "d-1", clientId: "c-1", name: "Family document", visibility: "family", storage_path: "private/path" }],
+  documents: [{ id: "d-1", clientId: "c-1", name: "Family document", visibility: "family", storage_path: "private/path" }, { id: "d-2-org", organisationId: "org-2", clientId: "c-1", name: "Wrong Organisation Document", visibility: "family", storage_path: "other/private/path" }],
   jobs: [
     { id: "j-1", clientId: "c-1", name: "Assigned Client", service: "Support", date: "2026-10-11", time: "10:00", status: "Upcoming", location: "1 Example Street", income: 100, notes: "private internal note" },
     { id: "j-2", clientId: "c-2", name: "Other Client", service: "Support", date: "2026-10-11", time: "11:00", status: "Upcoming" },
+    { id: "j-3", organisationId: "org-2", clientId: "c-1", name: "Wrong Organisation Visit", service: "Support", date: "2026-10-11", time: "12:00", status: "Upcoming" },
   ],
 };
 const family = projectRoleState(familyState, "family_member", { id: "family-1", email: "family@example.test" }, "org-1");
@@ -76,6 +77,7 @@ const familyMessageAccess = projectRoleState({
     { id: "internal-hidden", clientId: "c-1", body: "Staff-only message", visibleToClient: false, visibility: "team" },
     { id: "visibility-hidden", clientId: "c-1", body: "Internal visibility message", visibleToClient: true, visibility: "internal" },
     { id: "unlinked-message", clientId: "c-2", body: "Unlinked message", visibleToClient: true, visibility: "family" },
+    { id: "wrong-org-message", organisationId: "org-2", clientId: "c-1", body: "Wrong organisation message", visibleToClient: true, visibility: "family" },
   ],
 }, "family_member", { id: "family-1", email: "family@example.test" }, "org-1");
 assert.deepEqual(familyMessageAccess.messages.map((message) => message.id), ["family-visible"],
