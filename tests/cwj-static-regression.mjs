@@ -65,7 +65,7 @@ for (const brandColour of ["#0B2D52", "#087F88", "#12A3A5", "#4A9B45", "#EAF6FB"
 }
 const allPartStyleContent = Array.from({ length: partCount }, (_, index) =>
   read(`cwj_parts/part${String(index + 1).padStart(2, "0")}.txt`)).join("\n");
-const allStyleIds = [...allPartStyleContent.matchAll(/<style\\b[^>]*\\bid=["']([^"']+)["'][^>]*>/gi)]
+const allStyleIds = [...allPartStyleContent.matchAll(/<style\b[^>]*\bid=["']([^"']+)["'][^>]*>/gi)]
   .map((match) => match[1]);
 assert.equal(new Set(allStyleIds).size, allStyleIds.length,
   "all committed application parts must not duplicate style element IDs");
