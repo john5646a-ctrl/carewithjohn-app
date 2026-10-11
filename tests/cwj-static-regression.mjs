@@ -25,7 +25,7 @@ for (let i = 1; i <= partCount; i++) {
 }
 
 const primaryUi = read("cwj_parts/part10.txt");
-const primaryStyle = primaryUi.match(/<style\\b[^>]*>([\\s\\S]*?)<\\/style>/i)?.[1];
+const primaryStyle = primaryUi.match(/<style\b[^>]*>([\s\S]*?)<\/style>/i)?.[1];
 assert.ok(primaryStyle, "part10 primary UI style block must close");
 assert.equal((primaryStyle.match(/{/g) || []).length, (primaryStyle.match(/}/g) || []).length,
   "part10 primary UI CSS braces must balance independently of its JavaScript");
