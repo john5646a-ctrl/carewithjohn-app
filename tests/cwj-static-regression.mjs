@@ -10,6 +10,8 @@ const liveSmokeSyntax = spawnSync(process.execPath, ["--check", path.join(root, 
 assert.equal(liveSmokeSyntax.status, 0, `live Pages smoke script syntax error: ${liveSmokeSyntax.stderr}`);
 const browserSmokeSyntax = spawnSync(process.execPath, ["--check", path.join(root, "tests/cwj-browser-smoke.mjs")], { encoding: "utf8" });
 assert.equal(browserSmokeSyntax.status, 0, `browser smoke script syntax error: ${browserSmokeSyntax.stderr}`);
+const roleUiMockSyntax = spawnSync(process.execPath, ["--check", path.join(root, "tests/cwj-role-ui-mock.mjs")], { encoding: "utf8" });
+assert.equal(roleUiMockSyntax.status, 0, `role UI mock script syntax error: ${roleUiMockSyntax.stderr}`);
 const index = read("index.html");
 const loader = index.match(/for\(let i=1;i<=(\d+);i\+\+\)/);
 assert.ok(loader, "index loader loop exists");
