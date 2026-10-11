@@ -46,6 +46,12 @@ assert.match(renderers, /cwj-family-approved/);
 assert.match(renderers, /cwj-staff-approved/);
 assert.match(renderers, /CWJ_ROLES\.CLIENT/);
 assert.match(renderers, /CWJ_ROLES\.FAMILY_MEMBER/);
+const loginUi = read("cwj_parts/part10.txt");
+assert.ok(!loginUi.includes("Choose your entry point"), "login must not offer a non-functional client-side role picker");
+assert.ok(!loginUi.includes("data-role=\"admin\"") && !loginUi.includes("data-role=\"staff\"") && !loginUi.includes("data-role=\"family\""),
+  "role access must come from verified account membership, not a client-side login toggle");
+assert.ok(loginUi.includes("Your CareWithJohn account and organisation membership determine the access you receive."),
+  "login must explain that the account membership determines access");
 
 const adminCss = read("cwj_parts/part12.txt");
 const staffCss = read("cwj_parts/part13.txt");
