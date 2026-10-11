@@ -89,6 +89,7 @@ try {
       const page = await browser.newPage({ viewport: { width, height: width === 768 ? 1024 : 844 } });
       const pageErrors = [];
       const partResponses = new Map();
+      const apiRequests = [];
       page.on("pageerror", (error) => pageErrors.push(error.message));
       page.on("response", (response) => {
         const match = response.url().match(/\/cwj_parts\/(part\d+\.txt)(?:\?|$)/);
@@ -97,6 +98,7 @@ try {
       await page.route(`${apiBase}/**`, async (route) => {
         const request = route.request();
         const url = new URL(request.url());
+        apiRequests.push(`${request.method()} ${url.pathname}`);
         const routePath = url.pathname.replace("/functions/v1/cwj-api", "");
         if (request.method() === "OPTIONS") {
           const origin = request.headers().origin || "http://127.0.0.1:4173";
@@ -149,6 +151,7 @@ try {
         bodyPreview: document.body.innerText.slice(0, 600),
         authVisible: Boolean(document.querySelector("#authModal.show")),
         buildFailed: document.body.innerText.includes("Build loading failed"),
+        viewText: (document.getElementById("view")?.innerText || "").slice(0, 700),
       }));
       if (!metrics.bodyClass.includes("cwj-approved")) failures.push(`${role} @ ${width}px: approved body class missing`);
       if (metrics.authVisible) failures.push(`${role} @ ${width}px: sign-in modal did not close after mocked sign-in`);
