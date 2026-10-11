@@ -1,0 +1,40 @@
+name: CareWithJohn live release smoke
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "index.html"
+      - "cwj_parts/**"
+      - "tests/cwj-browser-smoke.mjs"
+      - "tests/cwj-live-pages-smoke.mjs"
+      - ".github/workflows/cwj-live-smoke.yml"
+permissions:
+  contents: read
+jobs:
+  live-release-smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install Playwright
+        run: npm install --no-save playwright
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+      - name: Verify deployed GitHub Pages files match this commit
+        run: node tests/cwj-live-pages-smoke.mjs
+      - name: Verify live sign-in shell, API health and unauthenticated access boundaries
+        run: node tests/cwj-browser-smoke.mjs
+      - name: Upload live release screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: carewithjohn-live-release-smoke
+          path: artifacts/cwj-login-*.png
+          if-no-files-found: warn
+          retention-days: 14
