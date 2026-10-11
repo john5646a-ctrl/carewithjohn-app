@@ -99,6 +99,8 @@ const familyMessageAccess = projectRoleState({
 }, "family_member", { id: "family-1", email: "family@example.test" }, "org-1");
 assert.deepEqual(familyMessageAccess.messages.map((message) => message.id), ["family-visible"],
   "Family must only receive messages for linked clients that are not explicitly internal or hidden from clients/family");
+assert.equal("senderId" in familyMessageAccess.messages[0], false, "Client/Family messages must not expose internal sender IDs");
+assert.equal("recipientId" in familyMessageAccess.messages[0], false, "Client/Family messages must not expose internal recipient IDs");
 assert.deepEqual(family.tasks, [], "Family tasks require an explicit relationship permission");
 assert.equal("storage_path" in family.documents[0], false);
 assert.deepEqual(family.invoices, []);
