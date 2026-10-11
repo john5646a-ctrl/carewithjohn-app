@@ -23,7 +23,7 @@ const state = {
   ],
   invoices: [{ id: "inv-1", amount: 1000 }],
   expenses: [{ id: "exp-1", amount: 500 }],
-  messages: [{ id: "m-1", clientId: "c-1", body: "Not explicitly shared with staff" }, { id: "m-2", clientId: "c-1", recipientId: "staff-1", body: "Direct staff message" }, { id: "m-3", clientId: "c-2", body: "Other client message" }],
+  messages: [{ id: "m-1", clientId: "c-1", body: "Not explicitly shared with staff" }, { id: "m-2", clientId: "c-1", recipientId: "staff-1", body: "Direct staff message" }, { id: "m-3", clientId: "c-2", body: "Other client message" }, { id: "m-4", clientId: "c-2", recipientId: "staff-1", body: "Direct message for an unrelated client" }],
   documents: [{ id: "d-1", clientId: "c-1", name: "Team document", visibility: "team", storage_path: "private/path" }, { id: "d-2", clientId: "c-2", name: "Other document", visibility: "team" }],
   notifications: [{ id: "n-1", recipientId: "staff-1", title: "Own alert" }, { id: "n-2", recipientId: "staff-2", title: "Other alert" }],
 };
@@ -67,6 +67,19 @@ assert.equal("address" in family.clients[0], false);
 assert.deepEqual(family.documents.map((document) => document.id), ["d-1"]);
 assert.equal("phone" in family.clients[0], false, "Family contact details require an explicit relationship permission");
 assert.deepEqual(family.messages, [], "Family messages require an explicit relationship permission");
+
+const familyMessageAccess = projectRoleState({
+  ...familyState,
+  relationships: [{ id: "r-msg", organisationId: "org-1", userId: "family-1", resourceType: "client", resourceId: "c-1", status: "active", permissions: { messages: true } }],
+  messages: [
+    { id: "family-visible", clientId: "c-1", body: "Visible family update", visibleToClient: true, visibility: "family" },
+    { id: "internal-hidden", clientId: "c-1", body: "Staff-only message", visibleToClient: false, visibility: "team" },
+    { id: "visibility-hidden", clientId: "c-1", body: "Internal visibility message", visibleToClient: true, visibility: "internal" },
+    { id: "unlinked-message", clientId: "c-2", body: "Unlinked message", visibleToClient: true, visibility: "family" },
+  ],
+}, "family_member", { id: "family-1", email: "family@example.test" }, "org-1");
+assert.deepEqual(familyMessageAccess.messages.map((message) => message.id), ["family-visible"],
+  "Family must only receive messages for linked clients that are not explicitly internal or hidden from clients/family");
 assert.deepEqual(family.tasks, [], "Family tasks require an explicit relationship permission");
 assert.equal("storage_path" in family.documents[0], false);
 assert.deepEqual(family.invoices, []);
