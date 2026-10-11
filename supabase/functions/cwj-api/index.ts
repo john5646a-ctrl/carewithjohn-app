@@ -1,5 +1,5 @@
 import { createClient } from "@supabase/supabase-js";
-import { corsHeaders } from "./cors.ts";
+import { corsHeaders } from "./cors.mjs";
 const SUPABASE_URL=Deno.env.get("SUPABASE_URL")!;
 const configuredOrigins=(Deno.env.get("APP_ALLOWED_ORIGINS")||"").split(",").map(x=>x.trim()).filter(Boolean);
 const defaultOrigins=["https://john5646a-ctrl.github.io"];
