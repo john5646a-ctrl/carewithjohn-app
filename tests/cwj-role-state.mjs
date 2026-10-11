@@ -23,7 +23,7 @@ const state = {
   ],
   invoices: [{ id: "inv-1", amount: 1000 }],
   expenses: [{ id: "exp-1", amount: 500 }],
-  messages: [{ id: "m-1", clientId: "c-1", body: "Not explicitly shared with staff" }, { id: "m-2", clientId: "c-1", recipientId: "staff-1", body: "Direct staff message" }, { id: "m-3", clientId: "c-2", body: "Other client message" }, { id: "m-4", clientId: "c-2", recipientId: "staff-1", body: "Direct message for an unrelated client" }],
+  messages: [{ id: "m-1", clientId: "c-1", body: "Not explicitly shared with staff" }, { id: "m-2", clientId: "c-1", recipientId: "staff-1", body: "Direct staff message" }, { id: "m-3", clientId: "c-2", body: "Other client message" }, { id: "m-4", clientId: "c-2", recipientId: "staff-1", body: "Direct message for an unrelated client" }, { id: "m-5", clientId: "c-1", recipientId: "staff-1", body: "Explicitly hidden from Staff", visibleToStaff: false }],
   documents: [{ id: "d-1", clientId: "c-1", name: "Team document", visibility: "team", storage_path: "private/path" }, { id: "d-2", clientId: "c-2", name: "Other document", visibility: "team" }],
   notifications: [{ id: "n-1", recipientId: "staff-1", title: "Own alert" }, { id: "n-2", recipientId: "staff-2", title: "Other alert" }],
 };
