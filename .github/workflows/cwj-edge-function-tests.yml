@@ -1,0 +1,24 @@
+name: CareWithJohn Edge Function unit tests
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "supabase/functions/cwj-api/**"
+      - ".github/workflows/cwj-edge-function-tests.yml"
+  push:
+    branches: [main]
+    paths:
+      - "supabase/functions/cwj-api/**"
+      - ".github/workflows/cwj-edge-function-tests.yml"
+permissions:
+  contents: read
+jobs:
+  cors-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.x
+      - name: Run CORS allowlist tests
+        run: deno test supabase/functions/cwj-api/cors.test.ts
