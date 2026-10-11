@@ -47,6 +47,33 @@ try {
     await page.waitForSelector("#authPassword", { state: "visible", timeout: 10000 });
     await page.waitForTimeout(250);
 
+    let apiChecks = null;
+    if (viewport.width === 320) {
+      try {
+        apiChecks = await page.evaluate(async () => {
+          const api = "https://fjxiqkqrnkmnohzvmnss.supabase.co/functions/v1/cwj-api";
+          const healthResponse = await fetch(`${api}/health`, { cache: "no-store" });
+          const healthBody = await healthResponse.json();
+          const authResponse = await fetch(`${api}/auth/me`, { cache: "no-store", credentials: "include" });
+          const authBody = await authResponse.json();
+          return {
+            healthStatus: healthResponse.status,
+            healthBody,
+            unauthenticatedStatus: authResponse.status,
+            unauthenticatedBody: authBody,
+          };
+        });
+        if (apiChecks.healthStatus !== 200 || apiChecks.healthBody?.ok !== true || apiChecks.healthBody?.service !== "cwj-api") {
+          failures.push(`live API health check failed: ${JSON.stringify(apiChecks)}`);
+        }
+        if (apiChecks.unauthenticatedStatus !== 401 || apiChecks.unauthenticatedBody?.error !== "Not authenticated.") {
+          failures.push(`unauthenticated API request was not rejected as expected: ${JSON.stringify(apiChecks)}`);
+        }
+      } catch (error) {
+        failures.push(`live API CORS/health check failed from the app origin: ${error.message}`);
+      }
+    }
+
     const metrics = await page.evaluate(() => ({
       title: document.title,
       viewportWidth: window.innerWidth,
