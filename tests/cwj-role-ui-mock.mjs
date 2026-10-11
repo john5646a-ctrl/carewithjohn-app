@@ -158,8 +158,6 @@ try {
         bodyPreview: document.body.innerText.slice(0, 600),
         authVisible: Boolean(document.querySelector("#authModal.show")),
         drawerOpen: [...document.querySelectorAll('.drawer, [class*="drawer"]')].some(el => { const r=el.getBoundingClientRect(), s=getComputedStyle(el); return (el.classList.contains('open') || (s.position==='fixed' && r.height>100 && r.top<innerHeight && r.bottom>innerHeight-80)) && s.visibility!=='hidden' && s.display!=='none'; }),
-        drawerDiagnostics: [...document.querySelectorAll('.drawer, [class*="drawer"]')].map(el=>({id:el.id,className:String(el.className),position:getComputedStyle(el).position,transform:getComputedStyle(el).transform,top:Math.round(el.getBoundingClientRect().top),height:Math.round(el.getBoundingClientRect().height),text:(el.innerText||'').slice(0,80)})),
-        fixedPanels: [...document.querySelectorAll('body *')].filter(el => { const r=el.getBoundingClientRect(), s=getComputedStyle(el); return s.position==='fixed' && r.width>150 && r.height>80 && r.top<innerHeight && r.bottom>0; }).map(el=>({tag:el.tagName,id:el.id,className:String(el.className),top:Math.round(el.getBoundingClientRect().top),height:Math.round(el.getBoundingClientRect().height),text:(el.innerText||'').slice(0,100)})).slice(-12),
         buildFailed: document.body.innerText.includes("Build loading failed"),
         viewText: (document.getElementById("view")?.innerText || "").slice(0, 700),
       }));
@@ -189,7 +187,7 @@ try {
       if (role === "admin_owner" && !metrics.bodyText.includes("Today")) failures.push(`Admin @ ${width}px: operational dashboard was not rendered`);
 
       if (width === 390) {
-        await page.screenshot({ path: path.join(artifactsDir, `role-${role}-390px.png`), fullPage: true });
+        await page.screenshot({ path: path.join(artifactsDir, `role-${role}-390px.png`), fullPage: false });
       }
       if (role === "staff_member") {
         await page.evaluate(() => window.showPage("Schedule"));
@@ -212,7 +210,7 @@ try {
         await page.waitForTimeout(80);
         if (pageErrors.length) failures.push(`${role} @ ${width}px: JavaScript errors during role navigation: ${pageErrors.join("; ")}`);
       }
-      console.log(JSON.stringify({ role, width, bodyClass: metrics.bodyClass, documentWidth: metrics.documentWidth, partsLoaded: partResponses.size, apiRequests, viewText: metrics.viewText, pageErrors, roleStateError: metrics.roleStateError, roleStateSummary: metrics.roleStateSummary, bodyPreview: metrics.bodyPreview, drawerOpen: metrics.drawerOpen, drawerDiagnostics: metrics.drawerDiagnostics, fixedPanels: metrics.fixedPanels }));
+      console.log(JSON.stringify({ role, width, bodyClass: metrics.bodyClass, documentWidth: metrics.documentWidth, partsLoaded: partResponses.size, apiRequests, viewText: metrics.viewText, pageErrors, roleStateError: metrics.roleStateError, roleStateSummary: metrics.roleStateSummary, bodyPreview: metrics.bodyPreview, drawerOpen: metrics.drawerOpen }));
       await page.close();
     }
   }
