@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import assert from "node:assert/strict";
-import { corsHeaders } from "../supabase/functions/cwj-api/cors.mjs";
+import "./cwj-edge-cors.mjs";
 
 const root = process.cwd();
 const read = (file) => fs.readFileSync(path.join(root, file), "utf8");
@@ -51,27 +51,6 @@ assert.match(staffCss, /body\.cwj-approved\.cwj-staff-approved/,
   "Staff styling must be role-scoped");
 assert.match(familyCss, /body\.cwj-approved\.cwj-family-approved/,
   "Family/Client styling must be role-scoped");
-
-const allowedOrigin = "https://john5646a-ctrl.github.io";
-const acceptedCors = corsHeaders(new Request("https://api.example.test/resource", {
-  headers: { Origin: allowedOrigin },
-}), [allowedOrigin]);
-assert.equal(acceptedCors["Access-Control-Allow-Origin"], allowedOrigin,
-  "configured application origin should receive CORS permission");
-assert.equal(acceptedCors["Access-Control-Allow-Credentials"], "true");
-const rejectedCors = corsHeaders(new Request("https://api.example.test/resource", {
-  headers: { Origin: "https://attacker.example" },
-}), [allowedOrigin]);
-assert.equal("Access-Control-Allow-Origin" in rejectedCors, false,
-  "unapproved origins must not be reflected into CORS headers");
-const spoofedCors = corsHeaders(new Request("https://api.example.test/resource", {
-  headers: { Origin: allowedOrigin + ".attacker.example" },
-}), [allowedOrigin]);
-assert.equal("Access-Control-Allow-Origin" in spoofedCors, false,
-  "origin allowlist must use exact matches, not substrings");
-const noOriginCors = corsHeaders(new Request("https://api.example.test/resource"), [allowedOrigin]);
-assert.equal("Access-Control-Allow-Origin" in noOriginCors, false,
-  "requests without Origin must not receive an invented CORS origin");
 
 console.log("CareWithJohn static regression checks: PASS");
 console.log(`Validated ${partCount} build parts, loader/cache consistency, CSS integrity, role separation and login hydration guard.`);
