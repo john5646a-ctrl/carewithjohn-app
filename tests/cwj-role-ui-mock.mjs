@@ -157,11 +157,13 @@ try {
         roleStateSummary: window.__cwjRoleStateSummary || null,
         bodyPreview: document.body.innerText.slice(0, 600),
         authVisible: Boolean(document.querySelector("#authModal.show")),
+        drawerOpen: Boolean(document.getElementById('drawer')?.classList.contains('open')),
         buildFailed: document.body.innerText.includes("Build loading failed"),
         viewText: (document.getElementById("view")?.innerText || "").slice(0, 700),
       }));
       if (!metrics.bodyClass.includes("cwj-approved")) failures.push(`${role} @ ${width}px: approved body class missing`);
       if (metrics.authVisible) failures.push(`${role} @ ${width}px: sign-in modal did not close after mocked sign-in`);
+      if (metrics.drawerOpen) failures.push(`${role} @ ${width}px: details drawer remained open on the landing screen`);
       if (metrics.buildFailed) failures.push(`${role} @ ${width}px: loader failed`);
       if (metrics.roleStateError) failures.push(`${role} @ ${width}px: role-state load failed: ${metrics.roleStateError}`);
       if (metrics.documentWidth > width || metrics.bodyWidth > width) failures.push(`${role} @ ${width}px: horizontal overflow (document ${metrics.documentWidth}, body ${metrics.bodyWidth})`);
