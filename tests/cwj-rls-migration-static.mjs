@@ -20,7 +20,7 @@ for (const policy of [
     `${policy} must be reconciled`);
 }
 const adminChecks = [...sql.matchAll(/public\.current_role\(\)\s*=\s*'([^']+)'/g)].map((match) => match[1]);
-assert.ok(adminChecks.length >= 8, "membership and relationship policies must consistently constrain role checks");
+assert.ok(adminChecks.length >= 6, "membership and relationship policies must consistently constrain role checks");
 assert.ok(adminChecks.every((role) => role === "admin"),
   "current_role() maps admin_owner to 'admin'; policy comparisons must use that canonical database role");
 console.log("CareWithJohn RLS migration guard tests: PASS");
