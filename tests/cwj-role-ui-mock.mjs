@@ -157,7 +157,8 @@ try {
         roleStateSummary: window.__cwjRoleStateSummary || null,
         bodyPreview: document.body.innerText.slice(0, 600),
         authVisible: Boolean(document.querySelector("#authModal.show")),
-        drawerOpen: Boolean(document.getElementById('drawer')?.classList.contains('open')),
+        drawerOpen: [...document.querySelectorAll('.drawer, [class*="drawer"]')].some(el => { const r=el.getBoundingClientRect(), s=getComputedStyle(el); return (el.classList.contains('open') || (s.position==='fixed' && r.height>100 && r.top<innerHeight && r.bottom>innerHeight-80)) && s.visibility!=='hidden' && s.display!=='none'; }),
+        drawerDiagnostics: [...document.querySelectorAll('.drawer, [class*="drawer"]')].map(el=>({id:el.id,className:String(el.className),position:getComputedStyle(el).position,transform:getComputedStyle(el).transform,top:Math.round(el.getBoundingClientRect().top),height:Math.round(el.getBoundingClientRect().height),text:(el.innerText||'').slice(0,80)})),
         buildFailed: document.body.innerText.includes("Build loading failed"),
         viewText: (document.getElementById("view")?.innerText || "").slice(0, 700),
       }));
