@@ -58,11 +58,15 @@ try {
           const healthBody = await healthResponse.json();
           const authResponse = await fetch(`${api}/auth/me`, { cache: "no-store", credentials: "include" });
           const authBody = await authResponse.json();
+          const roleStateResponse = await fetch(`${api}/role-state`, { cache: "no-store", credentials: "include" });
+          const roleStateBody = await roleStateResponse.json();
           return {
             healthStatus: healthResponse.status,
             healthBody,
             unauthenticatedStatus: authResponse.status,
             unauthenticatedBody: authBody,
+            roleStateStatus: roleStateResponse.status,
+            roleStateBody,
           };
         });
         if (apiChecks.healthStatus !== 200 || apiChecks.healthBody?.ok !== true || apiChecks.healthBody?.service !== "cwj-api") {
@@ -70,6 +74,9 @@ try {
         }
         if (apiChecks.unauthenticatedStatus !== 401 || apiChecks.unauthenticatedBody?.error !== "Not authenticated.") {
           failures.push(`unauthenticated API request was not rejected as expected: ${JSON.stringify(apiChecks)}`);
+        }
+        if (apiChecks.roleStateStatus !== 401 || apiChecks.roleStateBody?.error !== "Not authenticated.") {
+          failures.push(`unauthenticated role-state request was not rejected as expected: ${JSON.stringify(apiChecks)}`);
         }
       } catch (error) {
         failures.push(`live API CORS/health check failed from the app origin: ${error.message}`);
@@ -105,7 +112,12 @@ try {
     if (resourceErrors.length) failures.push(`${viewport.width}px: resource errors: ${resourceErrors.join("; ")}`);
     if (pageErrors.length) failures.push(`${viewport.width}px: JavaScript errors: ${pageErrors.join("; ")}`);
     const unexpectedConsoleErrors = [...consoleErrors];
-    if (apiChecks?.unauthenticatedStatus === 401 && apiChecks?.unauthenticatedBody?.error === "Not authenticated.") {
+    const expected401Count =
+      (apiChecks?.unauthenticatedStatus === 401 && apiChecks?.unauthenticatedBody?.error === "Not authenticated." ? 1 : 0) +
+      (apiChecks?.roleStateStatus === 401 && apiChecks?.roleStateBody?.error === "Not authenticated." ? 1 : 0);
+    // Each deliberate unauthenticated fetch can emit one generic browser-console 401.
+    // Remove only the number explained by the two explicit API checks; leave any extras as failures.
+    for (let i = 0; i < expected401Count; i += 1) {
       const expected401Index = unexpectedConsoleErrors.findIndex((message) => message.includes("status of 401"));
       if (expected401Index >= 0) unexpectedConsoleErrors.splice(expected401Index, 1);
     }
