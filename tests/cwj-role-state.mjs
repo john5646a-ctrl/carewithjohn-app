@@ -19,6 +19,7 @@ const state = {
   jobs: [
     { id: "j-1", clientId: "c-1", assigneeUserId: "staff-1", date: "2026-10-11", time: "10:00", status: "Upcoming", income: 100, workerCost: 30, notes: "internal visit note" },
     { id: "j-2", clientId: "c-2", assigneeUserId: "staff-2", date: "2026-10-11", time: "11:00", status: "Upcoming", income: 200 },
+    { id: "j-3", organisationId: "org-2", clientId: "c-1", assigneeUserId: "staff-1", date: "2026-10-11", time: "12:00", status: "Upcoming", income: 300 },
   ],
   invoices: [{ id: "inv-1", amount: 1000 }],
   expenses: [{ id: "exp-1", amount: 500 }],
@@ -64,9 +65,33 @@ assert.equal("notes" in family.jobs[0], false);
 assert.equal("rate" in family.clients[0], false);
 assert.equal("address" in family.clients[0], false);
 assert.deepEqual(family.documents.map((document) => document.id), ["d-1"]);
+assert.equal("phone" in family.clients[0], false, "Family contact details require an explicit relationship permission");
+assert.deepEqual(family.messages, [], "Family messages require an explicit relationship permission");
+assert.deepEqual(family.tasks, [], "Family tasks require an explicit relationship permission");
 assert.equal("storage_path" in family.documents[0], false);
 assert.deepEqual(family.invoices, []);
 assert.deepEqual(family.expenses, []);
+
+
+const revokedAndCrossOrg = projectRoleState({
+  ...familyState,
+  relationships: [
+    { id: "revoked", organisationId: "org-1", userId: "family-1", resourceType: "client", resourceId: "c-1", status: "revoked", permissions: { location: true, documents: true, messages: true } },
+    { id: "wrong-org", organisationId: "org-2", userId: "family-1", resourceType: "client", resourceId: "c-2", status: "active", permissions: { location: true, documents: true, messages: true } },
+    { id: "other-user", organisationId: "org-1", userId: "family-2", resourceType: "client", resourceId: "c-2", status: "active", permissions: { location: true, documents: true, messages: true } },
+  ],
+}, "family_member", { id: "family-1" }, "org-1");
+assert.deepEqual(revokedAndCrossOrg.relationships, [], "Revoked, cross-organisation and other-user relationships must grant no access");
+assert.deepEqual(revokedAndCrossOrg.clients, []);
+assert.deepEqual(revokedAndCrossOrg.jobs, []);
+assert.deepEqual(revokedAndCrossOrg.documents, []);
+assert.deepEqual(revokedAndCrossOrg.messages, []);
+
+const restrictedStaff = projectRoleState({
+  ...state,
+  jobs: [...state.jobs, { id: "j-other-org", organisationId: "org-2", clientId: "c-1", assigneeUserId: "staff-1", status: "Upcoming" }],
+}, "staff_member", user, "org-1");
+assert.deepEqual(restrictedStaff.jobs.map((job) => job.id), ["j-1"], "Staff projection must exclude jobs explicitly tagged to another organisation");
 
 const empty = projectRoleState({}, "client", { id: "client-1" }, "org-1");
 assert.deepEqual(empty.jobs, []);
