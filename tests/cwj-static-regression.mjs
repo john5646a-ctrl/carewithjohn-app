@@ -20,7 +20,8 @@ assert.match(index, /cwj_parts\/part/ , "loader must request cwj_parts resources
 assert.match(index, /cache:'no-store'/, "loader must bypass browser HTTP cache for build parts");
 assert.match(index, /Build part '\+i\+' failed/, "loader must reject non-success responses instead of silently rendering partial content");
 assert.match(index, /Build loading failed/, "loader must show an explicit error when a required part fails");
-assert.match(index, /auth\/me|authModal|authEmail/, "login shell must retain an authentication entry point");
+const authUiParts = [9, 10].map((n) => read(`cwj_parts/part${String(n).padStart(2, "0")}.txt`)).join("\n");
+assert.match(authUiParts, /authModal|authEmail|authPassword/, "app parts must retain the sign-in form entry point");
 const cacheVersion = index.match(/\?v=([0-9.]+)/)?.[1];
 assert.equal(cacheVersion, "29.0.0", "loader cache version should match the current release");
 
