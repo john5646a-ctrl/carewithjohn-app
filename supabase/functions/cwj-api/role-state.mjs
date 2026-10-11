@@ -12,6 +12,7 @@ const text = (value) => String(value ?? "").trim();
 const lower = (value) => text(value).toLowerCase();
 const userIdOf = (row) => text(row?.userId ?? row?.user_id ?? row?.profileId ?? row?.profile_id);
 const orgIdOf = (row) => text(row?.organisationId ?? row?.organisation_id);
+const inOrganisation = (row, organisationId) => !orgIdOf(row) || orgIdOf(row) === text(organisationId);
 const clientIdOf = (row) => text(row?.clientId ?? row?.client_id ?? row?.personId ?? row?.person_id);
 const recipientIdOf = (row) => text(row?.recipientId ?? row?.recipient_id);
 const senderIdOf = (row) => text(row?.senderId ?? row?.sender_id);
@@ -86,7 +87,8 @@ function projectStaff(state, result, user, organisationId) {
   const uid = text(user?.id);
   const email = lower(user?.email);
   const ownTeam = arr(state.team).filter((item) =>
-    userIdOf(item) === uid || (email && lower(item.email) === email)
+    inOrganisation(item, organisationId) &&
+    (userIdOf(item) === uid || (email && lower(item.email) === email))
   ).slice(0, 1);
   const teamIds = new Set(ownTeam.map((item) => text(item.id)).filter(Boolean));
   const teamNames = new Set(ownTeam.map((item) => lower(item.name)).filter(Boolean));
@@ -107,17 +109,22 @@ function projectStaff(state, result, user, organisationId) {
 
   result.jobs = jobs.map((job) => safeJobForStaff(job, uid));
   const clientIds = new Set(jobs.map(clientIdOf).filter(Boolean));
-  result.clients = arr(state.clients).filter((client) => clientIds.has(text(client.id))).map(safeClientForStaff);
+  result.clients = arr(state.clients).filter((client) =>
+    inOrganisation(client, organisationId) && clientIds.has(text(client.id))
+  ).map(safeClientForStaff);
   result.tasks = arr(state.tasks).filter((task) => {
+    if (!inOrganisation(task, organisationId)) return false;
     const assigned = text(task.assigneeUserId ?? task.assignedUserId ?? task.userId ?? task.user_id);
     return assigned === uid || clientIds.has(clientIdOf(task));
   }).map((task) => pick(task, ["id", "title", "name", "description", "status", "dueDate", "due_date", "clientId", "client_id", "jobId", "job_id", "assignedUserId", "assigneeUserId", "priority"]));
   result.documents = arr(state.documents).filter((doc) => {
+    if (!inOrganisation(doc, organisationId)) return false;
     const visibility = lower(doc.visibility);
     return clientIds.has(clientIdOf(doc)) && ["team", "shared"].includes(visibility);
   }).map(safeDocument);
   const assignedJobIds = new Set(jobs.map((job) => text(job.id)).filter(Boolean));
   result.messages = arr(state.messages).filter((message) => {
+    if (!inOrganisation(message, organisationId)) return false;
     const clientId = clientIdOf(message);
     if (message.visibleToStaff === false) return false;
     // A direct recipient match must never bypass the assigned-client boundary.
@@ -130,10 +137,12 @@ function projectStaff(state, result, user, organisationId) {
       message.visibleToStaff !== false &&
       ["team", "staff", "shared"].includes(visibility);
   }).map(safeMessage);
-  result.notifications = arr(state.notifications).filter((notice) => recipientIdOf(notice) === uid)
-    .map((notice) => pick(notice, ["id", "notificationType", "notification_type", "title", "body", "severity", "readAt", "read_at", "createdAt", "created_at"]));
-  result.activity = arr(state.activity).filter((event) => userIdOf(event) === uid || senderIdOf(event) === uid)
-    .map((event) => pick(event, ["id", "type", "title", "detail", "createdAt", "created_at", "userId", "user_id"]));
+  result.notifications = arr(state.notifications).filter((notice) =>
+    inOrganisation(notice, organisationId) && recipientIdOf(notice) === uid
+  ).map((notice) => pick(notice, ["id", "notificationType", "notification_type", "title", "body", "severity", "readAt", "read_at", "createdAt", "created_at"]));
+  result.activity = arr(state.activity).filter((event) =>
+    inOrganisation(event, organisationId) && (userIdOf(event) === uid || senderIdOf(event) === uid)
+  ).map((event) => pick(event, ["id", "type", "title", "detail", "createdAt", "created_at", "userId", "user_id"]));
   return result;
 }
 
@@ -166,7 +175,9 @@ function projectFamily(state, result, user, organisationId, role) {
   const clientIds = new Set(relationships.map((relationship) => text(relationship.resourceId ?? relationship.resource_id)));
   const clientPermissions = (clientId) => permissionsFor(relationships, clientId);
 
-  result.clients = arr(state.clients).filter((client) => clientIds.has(text(client.id))).map((client) => {
+  result.clients = arr(state.clients).filter((client) =>
+    inOrganisation(client, organisationId) && clientIds.has(text(client.id))
+  ).map((client) => {
     const permissions = clientPermissions(client.id);
     const output = pick(client, ["id", "name", "type", "clientType", "client_type", "service", "status"]);
     if (allows(permissions, "location")) Object.assign(output, pick(client, ["area", "location"]));
@@ -179,7 +190,7 @@ function projectFamily(state, result, user, organisationId, role) {
 
   const jobs = arr(state.jobs).filter((job) => {
     const clientId = clientIdOf(job);
-    return clientIds.has(clientId) && lower(job.status) !== "cancelled";
+    return inOrganisation(job, organisationId) && clientIds.has(clientId) && lower(job.status) !== "cancelled";
   });
   result.jobs = jobs.map((job) => {
     const clientId = clientIdOf(job);
@@ -198,11 +209,13 @@ function projectFamily(state, result, user, organisationId, role) {
   })) {
     const assignedNames = new Set(jobs.map((job) => lower(job.assignee ?? job.assignedTo ?? job.workerName)).filter(Boolean));
     const assignedIds = new Set(jobs.map((job) => text(job.workerId ?? job.worker_id ?? job.assigneeUserId ?? job.assignedUserId)).filter(Boolean));
-    result.team = arr(state.team).filter((member) => assignedNames.has(lower(member.name)) || assignedIds.has(text(member.id)))
-      .map((member) => pick(member, ["id", "name", "role", "roleTitle", "role_title", "status"]));
+    result.team = arr(state.team).filter((member) =>
+      inOrganisation(member, organisationId) && (assignedNames.has(lower(member.name)) || assignedIds.has(text(member.id)))
+    ).map((member) => pick(member, ["id", "name", "role", "roleTitle", "role_title", "status"]));
   }
 
   result.documents = arr(state.documents).filter((document) => {
+    if (!inOrganisation(document, organisationId)) return false;
     const clientId = clientIdOf(document);
     if (!clientIds.has(clientId)) return false;
     const permissions = clientPermissions(clientId);
@@ -212,6 +225,7 @@ function projectFamily(state, result, user, organisationId, role) {
   }).map(safeDocument);
 
   result.messages = arr(state.messages).filter((message) => {
+    if (!inOrganisation(message, organisationId)) return false;
     const clientId = clientIdOf(message);
     if (!clientIds.has(clientId)) return false;
     const visibility = lower(message.visibility ?? message.audience ?? message.messageType ?? message.message_type);
@@ -222,11 +236,13 @@ function projectFamily(state, result, user, organisationId, role) {
   }).map(safeMessage);
 
   result.tasks = arr(state.tasks).filter((task) => {
+    if (!inOrganisation(task, organisationId)) return false;
     const clientId = clientIdOf(task);
     return clientIds.has(clientId) && allows(clientPermissions(clientId), "tasks");
   }).map((task) => pick(task, ["id", "title", "name", "description", "status", "dueDate", "due_date", "clientId", "client_id", "jobId", "job_id"]));
 
   result.notifications = arr(state.notifications).filter((notice) => {
+    if (!inOrganisation(notice, organisationId)) return false;
     if (recipientIdOf(notice) === text(user?.id)) return true;
     const clientId = clientIdOf(notice);
     return clientIds.has(clientId) && allows(clientPermissions(clientId), "notifications");
