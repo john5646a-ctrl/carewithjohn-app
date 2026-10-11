@@ -51,6 +51,19 @@ assert.match(staffCss, /body\.cwj-approved\.cwj-staff-approved/,
 assert.match(familyCss, /body\.cwj-approved\.cwj-family-approved/,
   "Family/Client styling must be role-scoped");
 
+
+const approvedVisualParts = [10, 11, 12, 13, 14, 15, 16]
+  .map((n) => read(`cwj_parts/part${String(n).padStart(2, "0")}.txt`))
+  .join("\\n");
+for (const brandColour of ["#0B2D52", "#087F88", "#12A3A5", "#4A9B45", "#EAF6FB"]) {
+  assert.ok(approvedVisualParts.toLowerCase().includes(brandColour.toLowerCase()),
+    `approved CareWithJohn brand colour missing from visual layer: ${brandColour}`);
+}
+const styleIds = [...approvedVisualParts.matchAll(/<style\\b[^>]*\\bid=["']([^"']+)["'][^>]*>/gi)]
+  .map((match) => match[1]);
+assert.equal(new Set(styleIds).size, styleIds.length,
+  "approved visual layer must not contain duplicate style element IDs");
+
 console.log("CareWithJohn static regression checks: PASS");
 console.log(`Validated ${partCount} build parts, loader/cache consistency, CSS integrity, role separation and login hydration guard.`);
 console.log("Not covered: real browser rendering, device viewport screenshots, live Supabase/auth, RLS, or end-to-end workflows.");
