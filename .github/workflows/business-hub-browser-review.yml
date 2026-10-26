@@ -21,7 +21,7 @@ jobs:
       - name: Install browser test tools
         run: |
           npm init -y
-          npm install --save-dev playwright
+          npm install --save-dev playwright http-server
           npx playwright install --with-deps chromium
       - name: Serve preview and capture screenshots
         run: |
