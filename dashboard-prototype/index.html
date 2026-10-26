@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Better Living Services | Dashboard Prototype</title>
+<style>
+:root{--navy:#17354a;--teal:#198b8b;--green:#5b936d;--ink:#20313b;--muted:#647780;--line:#e0e8e9;--paper:#f4f8f7;--white:#fff;--amber:#946414}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);font:15px/1.5 system-ui,-apple-system,Segoe UI,sans-serif;color:var(--ink)}button,input,select{font:inherit}button{cursor:pointer}.shell{display:grid;grid-template-columns:240px minmax(0,1fr);min-height:100vh}.side{background:var(--navy);color:white;padding:26px 18px}.brand{font-size:19px;font-weight:750;line-height:1.2}.brand span{display:block;color:#8dd2c3;font-weight:600;font-size:13px;margin-top:5px}.nav{display:grid;gap:7px;margin-top:34px}.nav button{border:0;background:transparent;color:#dce9eb;text-align:left;padding:12px;border-radius:10px}.nav button.active,.nav button:hover{background:#2a5364;color:white}.side-note{margin-top:40px;padding:12px;border:1px solid #537180;border-radius:10px;font-size:12px;color:#dce9eb}.main{padding:30px;max-width:1400px;width:100%;margin:0 auto}.top{display:flex;justify-content:space-between;gap:20px;align-items:center;margin-bottom:24px}.eyebrow{font-size:12px;text-transform:uppercase;letter-spacing:.12em;color:var(--teal);font-weight:800}.h1{font-size:clamp(25px,3vw,34px);letter-spacing:-.04em;margin:4px 0}.sub{color:var(--muted);margin:0}.tag{background:#fff5d9;color:var(--amber);border:1px solid #f0dfac;border-radius:999px;padding:7px 11px;font-size:12px;font-weight:700;white-space:nowrap}.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}.card{background:var(--white);border:1px solid var(--line);border-radius:15px;padding:18px;box-shadow:0 2px 8px #18364208}.metric-label{color:var(--muted);font-size:13px}.metric{font-size:clamp(22px,2.2vw,30px);font-weight:780;letter-spacing:-.04em;margin:9px 0 4px}.hint{font-size:12px;color:var(--muted)}.section{margin-top:22px}.section-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px}.section-head h2{font-size:18px;margin:0}.columns{display:grid;grid-template-columns:1.15fr .85fr;gap:14px}.allocation{display:grid;gap:15px}.alloc-row{display:grid;grid-template-columns:1fr auto;gap:5px}.alloc-row strong{font-size:14px}.alloc-row span{font-size:13px;color:var(--muted)}.bar{grid-column:1/-1;height:8px;border-radius:20px;background:#edf2f2;overflow:hidden}.bar i{display:block;height:100%;border-radius:20px;background:var(--teal)}.goal{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}.goal h3{margin:0 0 4px;font-size:16px}.goal .metric{margin:4px 0}.button{border:0;border-radius:9px;background:var(--teal);color:white;padding:10px 14px;font-weight:700}.button.secondary{background:#edf5f4;color:var(--navy);border:1px solid #d3e6e2}.transactions{width:100%;border-collapse:collapse}.transactions th,.transactions td{text-align:left;padding:12px 8px;border-bottom:1px solid var(--line);font-size:13px}.transactions th{color:var(--muted);font-weight:650}.positive{color:#278052;font-weight:700}.negative{color:#b44e4e;font-weight:700}.empty{padding:18px;background:#f8fbfa;border:1px dashed #cbdad9;border-radius:10px;color:var(--muted);font-size:13px}.formrow{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:14px}.formrow label{font-size:12px;color:var(--muted);display:grid;gap:5px}.formrow input,.formrow select{width:100%;border:1px solid var(--line);border-radius:8px;padding:10px;background:white;color:var(--ink)}.notice{font-size:12px;color:var(--muted);margin-top:12px}.view{display:none}.view.active{display:block}.mobile-nav{display:none}
+@media(max-width:1000px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.columns{grid-template-columns:1fr}.main{padding:22px}}
+@media(max-width:650px){.shell{display:block}.side{padding:16px;position:relative}.nav{display:flex;overflow:auto;margin-top:15px}.nav button{white-space:nowrap;padding:9px 11px}.side-note{display:none}.main{padding:18px 14px}.top{align-items:flex-start;flex-direction:column}.grid{gap:10px}.card{padding:14px}.formrow{grid-template-columns:1fr}.transactions th:nth-child(2),.transactions td:nth-child(2){display:none}}
+</style>
+</head>
+<body>
+<div class="shell">
+<aside class="side">
+  <div class="brand">Better Living<span>Services · Business Hub</span></div>
+  <nav class="nav" aria-label="Dashboard sections">
+    <button class="active" data-view="overview">Overview</button>
+    <button data-view="transactions">Income & expenses</button>
+    <button data-view="allocations">Money allocation</button>
+    <button data-view="goals">Savings goals</button>
+  </nav>
+  <div class="side-note"><strong>Prototype only</strong><br>This is a visual working draft using sample figures. It is not connected to a bank, QuickBooks, or a secure database.</div>
+</aside>
+<main class="main">
+  <div class="top"><div><div class="eyebrow">Business management · Stage 1</div><h1 class="h1" id="pageTitle">Financial overview</h1><p class="sub">A clearer view of the money moving through your business.</p></div><span class="tag">DEMO DATA — NOT REAL FINANCES</span></div>
+  <section id="overview" class="view active">
+    <div class="grid">
+      <article class="card"><div class="metric-label">Income recorded</div><div class="metric" id="incomeTotal">£0.00</div><div class="hint">Demo transactions only</div></article>
+      <article class="card"><div class="metric-label">Expenses recorded</div><div class="metric" id="expenseTotal">£0.00</div><div class="hint">Including business costs</div></article>
+      <article class="card"><div class="metric-label">Net movement</div><div class="metric" id="netTotal">£0.00</div><div class="hint">Income minus recorded expenses</div></article>
+      <article class="card"><div class="metric-label">Van savings target</div><div class="metric">£4,500</div><div class="hint">Illustrative target; adjust later</div></article>
+    </div>
+    <div class="section columns">
+      <article class="card"><div class="section-head"><h2>Suggested allocation</h2><button class="button secondary" data-goto="allocations">View details</button></div><p class="sub" style="font-size:13px;margin-bottom:18px">Your current planning split, shown for illustration. Percentages are applied to demo income.</p><div class="allocation" id="allocationSummary"></div><p class="notice">This split is a budgeting preference, not a tax calculation. Actual available cash needs to account for bills, liabilities and expenses.</p></article>
+      <article class="card"><div class="section-head"><h2>Van savings</h2><button class="button secondary" data-goto="goals">Manage goal</button></div><div class="goal"><div><h3>Used small business van</h3><div class="metric" id="goalSaved">£0</div><span class="hint">of £4,500 target</span></div><strong id="goalPercent">0%</strong></div><div class="bar" style="margin:16px 0"><i id="goalBar" style="width:0%"></i></div><div class="empty">Savings will only be meaningful once real figures are entered and reconciled.</div></article>
+    </div>
+    <div class="section card"><div class="section-head"><h2>Recent transactions</h2><button class="button secondary" data-goto="transactions">Add or view</button></div><div id="recentTransactions"></div></div>
+  </section>
+  <section id="transactions" class="view">
+    <article class="card"><div class="section-head"><h2>Record a transaction</h2><span class="hint">Saved in this browser preview only</span></div>
+      <form id="transactionForm"><div class="formrow">
+        <label>Type<select id="txType"><option value="income">Income</option><option value="expense">Expense</option></select></label>
+        <label>Description<input id="txDescription" required maxlength="100" placeholder="e.g. Weekly cleaning"></label>
+        <label>Amount (£)<input id="txAmount" type="number" required min="0.01" step="0.01" placeholder="0.00"></label>
+        <label>Category<select id="txCategory"><option>Cleaning</option><option>Home help package</option><option>Laundry</option><option>Staff wages</option><option>Supplies</option><option>Travel</option><option>Insurance</option><option>Other</option></select></label>
+        <label>Date<input id="txDate" type="date" required></label>
+        <label>&nbsp;<button class="button" type="submit">Add transaction</button></label>
+      </div></form>
+      <p class="notice">Prototype note: entries are temporary local demo data and are not a substitute for accounting records. Do not enter sensitive or real customer data here.</p>
+    </article>
+    <article class="card section"><div class="section-head"><h2>Transaction history</h2><button class="button secondary" id="clearDemo">Clear demo entries</button></div><div id="allTransactions"></div></article>
+  </section>
+  <section id="allocations" class="view">
+    <article class="card"><div class="section-head"><h2>Allocation settings</h2><span class="hint">Current preference</span></div><p class="sub" style="font-size:13px;margin-bottom:18px">Adjusting these changes the suggested split of recorded income. The percentages should total 100%.</p><form id="allocationForm"><div class="formrow">
+      <label>Tax reserve (%)<input id="pTax" type="number" min="0" max="100" step="1" value="25" required></label>
+      <label>Business costs (%)<input id="pBusiness" type="number" min="0" max="100" step="1" value="40" required></label>
+      <label>Business buffer (%)<input id="pBuffer" type="number" min="0" max="100" step="1" value="10" required></label>
+      <label>Personal allocation (%)<input id="pPersonal" type="number" min="0" max="100" step="1" value="25" required></label>
+      <label>&nbsp;<button class="button" type="submit">Save allocation</button></label>
+    </div><p id="allocationMessage" class="notice">Total: 100%</p></form><div class="section allocation" id="allocationDetail"></div></article>
+  </section>
+  <section id="goals" class="view">
+    <article class="card"><div class="section-head"><h2>Van savings goal</h2><span class="hint">Illustrative target</span></div><form id="goalForm"><div class="formrow">
+      <label>Goal name<input id="goalName" value="Used small business van" required maxlength="80"></label>
+      <label>Target amount (£)<input id="goalTarget" type="number" min="1" step="1" value="4500" required></label>
+      <label>Already saved (£)<input id="goalCurrent" type="number" min="0" step="1" value="0" required></label>
+      <label>&nbsp;<button class="button" type="submit">Update goal</button></label>
+    </div></form><div class="section"><div class="goal"><div><h3 id="goalNameDisplay">Used small business van</h3><div class="metric" id="goalDetailSaved">£0</div><span class="hint" id="goalRemaining">£4,500 remaining</span></div><strong id="goalDetailPercent">0%</strong></div><div class="bar" style="margin-top:14px"><i id="goalDetailBar" style="width:0%"></i></div></div><p class="notice">This is a planning target, not a recommendation to buy now. Include insurance, repairs, tax, and cash-flow needs before deciding affordability.</p></article>
+  </section>
+</main>
+</div>
+<script>
+const fmt=n=>new Intl.NumberFormat('en-GB',{style:'currency',currency:'GBP'}).format(n);
+let transactions=[];
+let percentages={tax:25,business:40,buffer:10,personal:25};
+let goal={name:'Used small business van',target:4500,current:0};
+const $=id=>document.getElementById(id);
+function totals(){return transactions.reduce((a,t)=>{a[t.type]+=t.amount;return a},{income:0,expense:0})}
+function tableHtml(items){if(!items.length)return '<div class="empty">No transactions yet. Add a demo entry to see it appear here.</div>';return '<div style="overflow:auto"><table class="transactions"><thead><tr><th>Date</th><th>Category</th><th>Description</th><th>Type</th><th>Amount</th></tr></thead><tbody>'+items.slice().reverse().map(t=>'<tr><td>'+escapeHtml(t.date)+'</td><td>'+escapeHtml(t.category)+'</td><td>'+escapeHtml(t.description)+'</td><td>'+t.type+'</td><td class="'+(t.type==='income'?'positive':'negative')+'">'+(t.type==='income'?'+':'−')+fmt(t.amount)+'</td></tr>').join('')+'</tbody></table></div>'}
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function allocationHtml(income){return [['Tax reserve',percentages.tax],['Business costs',percentages.business],['Business buffer',percentages.buffer],['Personal allocation',percentages.personal]].map(([label,p])=>'<div class="alloc-row"><strong>'+label+' · '+p+'%</strong><span>'+fmt(income*p/100)+'</span><div class="bar"><i style="width:'+p+'%"></i></div></div>').join('')}
+function render(){const t=totals();$('incomeTotal').textContent=fmt(t.income);$('expenseTotal').textContent=fmt(t.expense);$('netTotal').textContent=fmt(t.income-t.expense);$('allocationSummary').innerHTML=allocationHtml(t.income);$('allocationDetail').innerHTML=allocationHtml(t.income);$('recentTransactions').innerHTML=tableHtml(transactions.slice(-5));$('allTransactions').innerHTML=tableHtml(transactions);$('goalSaved').textContent=fmt(goal.current);$('goalPercent').textContent=Math.min(100,Math.round(goal.current/goal.target*100))+'%';$('goalBar').style.width=Math.min(100,goal.current/goal.target*100)+'%';$('goalNameDisplay').textContent=goal.name;$('goalDetailSaved').textContent=fmt(goal.current);$('goalRemaining').textContent=fmt(Math.max(0,goal.target-goal.current))+' remaining of '+fmt(goal.target);$('goalDetailPercent').textContent=Math.min(100,Math.round(goal.current/goal.target*100))+'%';$('goalDetailBar').style.width=Math.min(100,goal.current/goal.target*100)+'%'}
+function show(view){document.querySelectorAll('.view').forEach(v=>v.classList.toggle('active',v.id===view));document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.view===view));$('pageTitle').textContent=({overview:'Financial overview',transactions:'Income & expenses',allocations:'Money allocation',goals:'Savings goals'})[view]||'Financial overview'}
+document.querySelectorAll('[data-view]').forEach(b=>b.addEventListener('click',()=>show(b.dataset.view)));document.querySelectorAll('[data-goto]').forEach(b=>b.addEventListener('click',()=>show(b.dataset.goto)));
+$('txDate').value=new Date().toISOString().slice(0,10);
+$('transactionForm').addEventListener('submit',e=>{e.preventDefault();transactions.push({type:$('txType').value,description:$('txDescription').value.trim(),amount:Number($('txAmount').value),category:$('txCategory').value,date:$('txDate').value});e.target.reset();$('txDate').value=new Date().toISOString().slice(0,10);render()});
+$('allocationForm').addEventListener('submit',e=>{e.preventDefault();const vals={tax:Number($('pTax').value),business:Number($('pBusiness').value),buffer:Number($('pBuffer').value),personal:Number($('pPersonal').value)};const sum=Object.values(vals).reduce((a,b)=>a+b,0);$('allocationMessage').textContent='Total: '+sum+'%'+(sum===100?' — saved.':' — must equal 100% to save.');$('allocationMessage').style.color=sum===100?'#278052':'#b44e4e';if(sum===100){percentages=vals;render()}});
+$('goalForm').addEventListener('submit',e=>{e.preventDefault();goal={name:$('goalName').value.trim(),target:Number($('goalTarget').value),current:Number($('goalCurrent').value)};render()});
+$('clearDemo').addEventListener('click',()=>{transactions=[];render()});render();
+</script>
+</body>
+</html>
