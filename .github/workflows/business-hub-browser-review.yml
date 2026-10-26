@@ -1,0 +1,58 @@
+name: Business Hub browser review
+on:
+  push:
+    branches: [business-hub-preview]
+    paths:
+      - 'dashboard-prototype/**'
+      - '.github/workflows/business-hub-browser-review.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+jobs:
+  browser-review:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Install browser test tools
+        run: |
+          npm init -y
+          npm install --save-dev playwright
+          npx playwright install --with-deps chromium
+      - name: Serve preview and capture screenshots
+        run: |
+          npx http-server . -p 4173 -c-1 > /tmp/bls-server.log 2>&1 &
+          for i in $(seq 1 30); do curl -fsS http://127.0.0.1:4173/dashboard-prototype/index.html >/dev/null && break || sleep 1; done
+          node --input-type=module <<'NODE'
+          import { chromium } from 'playwright';
+          const browser = await chromium.launch({ headless: true });
+          const errors = [];
+          const page = await browser.newPage({ viewport: { width: 1440, height: 1000 }, deviceScaleFactor: 1 });
+          page.on('pageerror', error => errors.push(error.message));
+          await page.goto('http://127.0.0.1:4173/dashboard-prototype/index.html', { waitUntil: 'networkidle' });
+          await page.screenshot({ path: 'business-hub-desktop.png', fullPage: true });
+          const title = await page.title();
+          const bodyText = await page.locator('body').innerText();
+          if (!bodyText.includes('Business Hub')) throw new Error('Dashboard content did not render');
+          const navButtons = await page.locator('[data-view]').count();
+          if (navButtons < 10) throw new Error('Expected navigation controls were not found');
+          await page.setViewportSize({ width: 390, height: 844 });
+          await page.screenshot({ path: 'business-hub-mobile.png', fullPage: true });
+          console.log(JSON.stringify({ title, navButtons, pageErrors: errors }, null, 2));
+          if (errors.length) throw new Error('Browser console errors: ' + errors.join('; '));
+          await browser.close();
+          NODE
+      - name: Upload screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: business-hub-browser-screenshots
+          path: |
+            business-hub-desktop.png
+            business-hub-mobile.png
+          if-no-files-found: warn
+          retention-days: 7
