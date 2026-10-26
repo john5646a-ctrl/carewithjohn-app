@@ -6,7 +6,7 @@
 <title>Better Living Services | Dashboard Prototype</title>
 <style>
 :root{--navy:#17354a;--teal:#198b8b;--green:#5b936d;--ink:#20313b;--muted:#647780;--line:#e0e8e9;--paper:#f4f8f7;--white:#fff;--amber:#946414}
-*{box-sizing:border-box}body{margin:0;background:var(--paper);font:15px/1.5 system-ui,-apple-system,Segoe UI,sans-serif;color:var(--ink)}button,input,select{font:inherit}button{cursor:pointer}.shell{display:grid;grid-template-columns:240px minmax(0,1fr);min-height:100vh}.side{background:var(--navy);color:white;padding:26px 18px}.brand{font-size:19px;font-weight:750;line-height:1.2}.brand span{display:block;color:#8dd2c3;font-weight:600;font-size:13px;margin-top:5px}.nav{display:grid;gap:7px;margin-top:34px}.nav button{border:0;background:transparent;color:#dce9eb;text-align:left;padding:12px;border-radius:10px}.nav button.active,.nav button:hover{background:#2a5364;color:white}.side-note{margin-top:40px;padding:12px;border:1px solid #537180;border-radius:10px;font-size:12px;color:#dce9eb}.main{padding:30px;max-width:1400px;width:100%;margin:0 auto}.top{display:flex;justify-content:space-between;gap:20px;align-items:center;margin-bottom:24px}.eyebrow{font-size:12px;text-transform:uppercase;letter-spacing:.12em;color:var(--teal);font-weight:800}.h1{font-size:clamp(25px,3vw,34px);letter-spacing:-.04em;margin:4px 0}.sub{color:var(--muted);margin:0}.tag{background:#fff5d9;color:var(--amber);border:1px solid #f0dfac;border-radius:999px;padding:7px 11px;font-size:12px;font-weight:700;white-space:nowrap}.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}.card{background:var(--white);border:1px solid var(--line);border-radius:15px;padding:18px;box-shadow:0 2px 8px #18364208}.metric-label{color:var(--muted);font-size:13px}.metric{font-size:clamp(22px,2.2vw,30px);font-weight:780;letter-spacing:-.04em;margin:9px 0 4px}.hint{font-size:12px;color:var(--muted)}.section{margin-top:22px}.section-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px}.section-head h2{font-size:18px;margin:0}.columns{display:grid;grid-template-columns:1.15fr .85fr;gap:14px}.allocation{display:grid;gap:15px}.alloc-row{display:grid;grid-template-columns:1fr auto;gap:5px}.alloc-row strong{font-size:14px}.alloc-row span{font-size:13px;color:var(--muted)}.bar{grid-column:1/-1;height:8px;border-radius:20px;background:#edf2f2;overflow:hidden}.bar i{display:block;height:100%;border-radius:20px;background:var(--teal)}.goal{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}.goal h3{margin:0 0 4px;font-size:16px}.goal .metric{margin:4px 0}.button{border:0;border-radius:9px;background:var(--teal);color:white;padding:10px 14px;font-weight:700}.button.secondary{background:#edf5f4;color:var(--navy);border:1px solid #d3e6e2}.transactions{width:100%;border-collapse:collapse}.transactions th,.transactions td{text-align:left;padding:12px 8px;border-bottom:1px solid var(--line);font-size:13px}.transactions th{color:var(--muted);font-weight:650}.positive{color:#278052;font-weight:700}.negative{color:#b44e4e;font-weight:700}.empty{padding:18px;background:#f8fbfa;border:1px dashed #cbdad9;border-radius:10px;color:var(--muted);font-size:13px}.formrow{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:14px}.formrow label{font-size:12px;color:var(--muted);display:grid;gap:5px}.formrow input,.formrow select{width:100%;border:1px solid var(--line);border-radius:8px;padding:10px;background:white;color:var(--ink)}.notice{font-size:12px;color:var(--muted);margin-top:12px}.view{display:none}.view.active{display:block}.mobile-nav{display:none}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);font:15px/1.5 system-ui,-apple-system,Segoe UI,sans-serif;color:var(--ink)}button,input,select{font:inherit}button{cursor:pointer}.shell{display:grid;grid-template-columns:240px minmax(0,1fr);min-height:100vh}.side{background:var(--navy);color:white;padding:26px 18px}.brand{font-size:19px;font-weight:750;line-height:1.2}.brand span{display:block;color:#8dd2c3;font-weight:600;font-size:13px;margin-top:5px}.nav{display:grid;gap:5px;margin-top:24px}.nav-label{font-size:10px;letter-spacing:.13em;color:#8eacb8;font-weight:800;padding:12px 10px 3px}.nav button{border:0;background:transparent;color:#dce9eb;text-align:left;padding:10px 11px;border-radius:9px;font-size:13px}.nav button.active,.nav button:hover{background:#2a5364;color:white}.future{font-size:9px;letter-spacing:.06em;border:1px solid #64818b;border-radius:4px;padding:2px 4px;margin-left:4px;color:#c2d8d8}.side-note{margin-top:40px;padding:12px;border:1px solid #537180;border-radius:10px;font-size:12px;color:#dce9eb}.main{padding:30px;max-width:1400px;width:100%;margin:0 auto}.top{display:flex;justify-content:space-between;gap:20px;align-items:center;margin-bottom:24px}.eyebrow{font-size:12px;text-transform:uppercase;letter-spacing:.12em;color:var(--teal);font-weight:800}.h1{font-size:clamp(25px,3vw,34px);letter-spacing:-.04em;margin:4px 0}.sub{color:var(--muted);margin:0}.tag{background:#fff5d9;color:var(--amber);border:1px solid #f0dfac;border-radius:999px;padding:7px 11px;font-size:12px;font-weight:700;white-space:nowrap}.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}.card{background:var(--white);border:1px solid var(--line);border-radius:15px;padding:18px;box-shadow:0 2px 8px #18364208}.metric-label{color:var(--muted);font-size:13px}.metric{font-size:clamp(22px,2.2vw,30px);font-weight:780;letter-spacing:-.04em;margin:9px 0 4px}.hint{font-size:12px;color:var(--muted)}.section{margin-top:22px}.section-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px}.section-head h2{font-size:18px;margin:0}.columns{display:grid;grid-template-columns:1.15fr .85fr;gap:14px}.allocation{display:grid;gap:15px}.alloc-row{display:grid;grid-template-columns:1fr auto;gap:5px}.alloc-row strong{font-size:14px}.alloc-row span{font-size:13px;color:var(--muted)}.bar{grid-column:1/-1;height:8px;border-radius:20px;background:#edf2f2;overflow:hidden}.bar i{display:block;height:100%;border-radius:20px;background:var(--teal)}.goal{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}.goal h3{margin:0 0 4px;font-size:16px}.goal .metric{margin:4px 0}.button{border:0;border-radius:9px;background:var(--teal);color:white;padding:10px 14px;font-weight:700}.button.secondary{background:#edf5f4;color:var(--navy);border:1px solid #d3e6e2}.transactions{width:100%;border-collapse:collapse}.transactions th,.transactions td{text-align:left;padding:12px 8px;border-bottom:1px solid var(--line);font-size:13px}.transactions th{color:var(--muted);font-weight:650}.positive{color:#278052;font-weight:700}.negative{color:#b44e4e;font-weight:700}.empty{padding:18px;background:#f8fbfa;border:1px dashed #cbdad9;border-radius:10px;color:var(--muted);font-size:13px}.formrow{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:14px}.formrow label{font-size:12px;color:var(--muted);display:grid;gap:5px}.formrow input,.formrow select{width:100%;border:1px solid var(--line);border-radius:8px;padding:10px;background:white;color:var(--ink)}.notice{font-size:12px;color:var(--muted);margin-top:12px}.view{display:none}.view.active{display:block}.module-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.module-card h3{margin:0 0 6px;font-size:16px}.module-card p{margin:0;color:var(--muted);font-size:13px}.module-list{margin:12px 0 0;padding-left:18px;color:var(--muted);font-size:13px}.status-note{background:#eef6f4;border:1px solid #d7e9e4;border-radius:10px;padding:13px;color:#365e5b;font-size:13px}.mobile-nav{display:none}
 @media(max-width:1000px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.columns{grid-template-columns:1fr}.main{padding:22px}}
 @media(max-width:650px){.shell{display:block}.side{padding:16px;position:relative}.nav{display:flex;overflow:auto;margin-top:15px}.nav button{white-space:nowrap;padding:9px 11px}.side-note{display:none}.main{padding:18px 14px}.top{align-items:flex-start;flex-direction:column}.grid{gap:10px}.card{padding:14px}.formrow{grid-template-columns:1fr}.transactions th:nth-child(2),.transactions td:nth-child(2){display:none}}
 </style>
@@ -16,10 +16,26 @@
 <aside class="side">
   <div class="brand">Better Living<span>Services · Business Hub</span></div>
   <nav class="nav" aria-label="Dashboard sections">
+    <div class="nav-label">DASHBOARD</div>
     <button class="active" data-view="overview">Overview</button>
+    <div class="nav-label">SERVICES</div>
+    <button data-view="homehelp">Home help & support</button>
+    <button data-view="cleaning">Regular cleaning</button>
+    <button data-view="deepcleans">Deep cleans</button>
+    <button data-view="laundry">Wash & fold laundry <span class="future">LATER</span></button>
+    <div class="nav-label">OPERATIONS</div>
+    <button data-view="customers">Customers</button>
+    <button data-view="bookings">Bookings & calendar</button>
+    <button data-view="staff">Staff & shifts</button>
+    <button data-view="tasks">Tasks & visit notes</button>
+    <div class="nav-label">BUSINESS ADMIN</div>
     <button data-view="transactions">Income & expenses</button>
     <button data-view="allocations">Money allocation</button>
     <button data-view="goals">Savings goals</button>
+    <button data-view="supplies">Equipment & supplies</button>
+    <button data-view="documents">Documents & procedures</button>
+    <button data-view="enquiries">Enquiries & marketing</button>
+    <button data-view="reports">Reports & settings</button>
   </nav>
   <div class="side-note"><strong>Prototype only</strong><br>This is a visual working draft using sample figures. It is not connected to a bank, QuickBooks, or a secure database.</div>
 </aside>
@@ -37,6 +53,115 @@
       <article class="card"><div class="section-head"><h2>Van savings</h2><button class="button secondary" data-goto="goals">Manage goal</button></div><div class="goal"><div><h3>Used small business van</h3><div class="metric" id="goalSaved">£0</div><span class="hint">of £4,500 target</span></div><strong id="goalPercent">0%</strong></div><div class="bar" style="margin:16px 0"><i id="goalBar" style="width:0%"></i></div><div class="empty">Savings will only be meaningful once real figures are entered and reconciled.</div></article>
     </div>
     <div class="section card"><div class="section-head"><h2>Recent transactions</h2><button class="button secondary" data-goto="transactions">Add or view</button></div><div id="recentTransactions"></div></div>
+  </section>
+
+  <section id="homehelp" class="view">
+    <div class="status-note">Home help & support workspace. This section will keep support packages and home-help customers organised separately from cleaning jobs.</div>
+    <div class="section module-grid">
+      <article class="card module-card"><h3>Support customers</h3><p>Customer details, agreed support needs, preferences, emergency contacts and consent records.</p></article>
+      <article class="card module-card"><h3>Support plans</h3><p>Regular home help, companionship, food preparation, shopping, appointments and community outings.</p></article>
+      <article class="card module-card"><h3>Visit records</h3><p>Planned visits, completed visits, notes, missed visits and follow-up actions.</p></article>
+      <article class="card module-card"><h3>Package overview</h3><p>Frequency, assigned worker, agreed tasks and service history for each customer.</p></article>
+    </div>
+  </section>
+  <section id="cleaning" class="view">
+    <div class="status-note">Regular cleaning workspace for recurring domestic cleans and one-off standard cleans.</div>
+    <div class="section module-grid">
+      <article class="card module-card"><h3>Cleaning customers</h3><p>Property details, access instructions stored securely, cleaning preferences and agreed scope.</p></article>
+      <article class="card module-card"><h3>Recurring schedule</h3><p>Weekly or fortnightly cleans, duration, assigned staff and upcoming appointments.</p></article>
+      <article class="card module-card"><h3>Cleaning checklist</h3><p>Room-by-room tasks, completion status, customer-specific instructions and quality checks.</p></article>
+      <article class="card module-card"><h3>Job income & costs</h3><p>Track job value, supplies, travel and staff time so profitability can be reviewed.</p></article>
+    </div>
+  </section>
+  <section id="deepcleans" class="view">
+    <div class="status-note">Deep cleans will have their own job workflow, quote, checklist and completion record.</div>
+    <div class="section module-grid">
+      <article class="card module-card"><h3>Enquiry & quote</h3><p>Property size, condition, requested rooms, photos where appropriate, quote and customer approval.</p></article>
+      <article class="card module-card"><h3>Job planning</h3><p>Estimated hours, team allocation, equipment and products required, and scheduled date.</p></article>
+      <article class="card module-card"><h3>Deep-clean checklist</h3><p>Detailed task list, progress, exceptions and final quality check.</p></article>
+      <article class="card module-card"><h3>Job outcome</h3><p>Final price, time spent, costs, payment status and any recommended follow-up clean.</p></article>
+    </div>
+  </section>
+  <section id="laundry" class="view">
+    <div class="status-note">Future service — shown now so the system is ready to grow. No laundry prices, orders or supplier arrangements are finalised here.</div>
+    <div class="section module-grid">
+      <article class="card module-card"><h3>Orders & bag sizes</h3><p>Customer, bag size/weight, collection date, special instructions and order status.</p></article>
+      <article class="card module-card"><h3>Collection routes</h3><p>Group nearby household collections and deliveries to reduce travel time and cost.</p></article>
+      <article class="card module-card"><h3>Laundry partner</h3><p>Supplier price, wash/fold/ironing options, turnaround time and order tracking.</p></article>
+      <article class="card module-card"><h3>Delivery & payment</h3><p>Ready for delivery, delivered confirmation, customer charge, supplier cost and margin.</p></article>
+    </div>
+  </section>
+  <section id="customers" class="view">
+    <div class="status-note">One customer directory shared across services, with service history kept in the relevant section.</div>
+    <div class="section module-grid">
+      <article class="card module-card"><h3>Customer profiles</h3><p>Contact details, preferred contact method, address and active/inactive status.</p></article>
+      <article class="card module-card"><h3>Services & history</h3><p>See whether a customer uses home help, cleaning, deep cleans or future laundry services.</p></article>
+      <article class="card module-card"><h3>Important instructions</h3><p>Access arrangements and service preferences, with restricted access for sensitive information.</p></article>
+      <article class="card module-card"><h3>Privacy & permissions</h3><p>Only collect information needed for the service and limit staff access by role.</p></article>
+    </div>
+  </section>
+  <section id="bookings" class="view">
+    <div class="status-note">A single calendar for appointments across all services, with filters so each service remains easy to manage.</div>
+    <div class="section module-grid">
+      <article class="card module-card"><h3>Calendar</h3><p>Day, week and month views, recurring visits, one-off jobs and collection/delivery slots.</p></article>
+      <article class="card module-card"><h3>Assign a worker</h3><p>Staff member, travel time, job duration and availability checks.</p></article>
+      <article class="card module-card"><h3>Reminders</h3><p>Upcoming jobs, confirmation status, changes and cancellations.</p></article>
+      <article class="card module-card"><h3>Booking status</h3><p>Enquiry, quoted, confirmed, in progress, completed or cancelled.</p></article>
+    </div>
+  </section>
+  <section id="staff" class="view">
+    <div class="status-note">Staff administration will be restricted to authorised accounts; payroll calculations must be checked against the proper payroll system.</div>
+    <div class="section module-grid">
+      <article class="card module-card"><h3>Staff profiles</h3><p>Role, contact details, availability, agreed rate and employment documents.</p></article>
+      <article class="card module-card"><h3>Shifts & assignments</h3><p>Upcoming jobs, assigned worker, hours planned and hours completed.</p></article>
+      <article class="card module-card"><h3>Hours & wages overview</h3><p>Approved hours and estimated wage costs to help with planning and reconciliation.</p></article>
+      <article class="card module-card"><h3>Training & checks</h3><p>Induction, training records, relevant checks and review dates.</p></article>
+    </div>
+  </section>
+  <section id="tasks" class="view">
+    <div class="status-note">A practical place to see what needs doing today and record work after a visit.</div>
+    <div class="section module-grid">
+      <article class="card module-card"><h3>Today's task list</h3><p>Tasks due, priority, responsible person and completion status.</p></article>
+      <article class="card module-card"><h3>Visit notes</h3><p>Service-related notes, completed checklist, issues and follow-up needed.</p></article>
+      <article class="card module-card"><h3>Incidents & complaints</h3><p>Record, assign, review and close out issues using the relevant procedure.</p></article>
+      <article class="card module-card"><h3>Owner follow-ups</h3><p>Callbacks, quotes to send, customer questions and overdue actions.</p></article>
+    </div>
+  </section>
+  <section id="supplies" class="view">
+    <div class="status-note">Keep equipment, consumables and future service purchases together, with costs linked to the relevant service where possible.</div>
+    <div class="section module-grid">
+      <article class="card module-card"><h3>Equipment register</h3><p>Item, purchase date, cost, condition, warranty and maintenance due.</p></article>
+      <article class="card module-card"><h3>Cleaning supplies</h3><p>Stock levels, purchase history and items to reorder.</p></article>
+      <article class="card module-card"><h3>Service expansion</h3><p>Track possible equipment for carpet cleaning, pressure washing and garden maintenance.</p></article>
+      <article class="card module-card"><h3>Supplier costs</h3><p>Supplier contacts, quotes and recurring costs.</p></article>
+    </div>
+  </section>
+  <section id="documents" class="view">
+    <div class="status-note">A controlled document area for business procedures and templates. Customer and staff records need appropriate access controls.</div>
+    <div class="section module-grid">
+      <article class="card module-card"><h3>Policies & procedures</h3><p>Keys and home access, complaints, safeguarding boundaries and other approved procedures.</p></article>
+      <article class="card module-card"><h3>Templates</h3><p>Quotes, service agreements, checklists, visit records and customer communications.</p></article>
+      <article class="card module-card"><h3>Insurance & compliance</h3><p>Policy documents, renewal dates, checks and reminders.</p></article>
+      <article class="card module-card"><h3>Version history</h3><p>Keep the current approved version clear and avoid staff using outdated documents.</p></article>
+    </div>
+  </section>
+  <section id="enquiries" class="view">
+    <div class="status-note">Track new enquiries from first message through quote, follow-up and booking. Social media drafts stay separate from published posts.</div>
+    <div class="section module-grid">
+      <article class="card module-card"><h3>Enquiry pipeline</h3><p>New, contacted, assessment/quote needed, awaiting reply, won or not proceeding.</p></article>
+      <article class="card module-card"><h3>Quotes & follow-ups</h3><p>Quote value, date sent, next follow-up and outcome.</p></article>
+      <article class="card module-card"><h3>Marketing planner</h3><p>Post ideas, drafts, planned dates and enquiries attributed to campaigns.</p></article>
+      <article class="card module-card"><h3>Customer feedback</h3><p>Reviews, feedback and permission to use testimonials or photos.</p></article>
+    </div>
+  </section>
+  <section id="reports" class="view">
+    <div class="status-note">Business-wide reporting will bring together all services while keeping revenue, costs, wages, tax reserves and cash position distinct.</div>
+    <div class="section module-grid">
+      <article class="card module-card"><h3>Service performance</h3><p>Compare home help, regular cleaning, deep cleans and laundry once launched.</p></article>
+      <article class="card module-card"><h3>Income & costs</h3><p>Monthly totals, unpaid invoices, supplier costs and estimated job margins.</p></article>
+      <article class="card module-card"><h3>Cash planning</h3><p>Tax reserve, business buffer, planned purchases and savings goals.</p></article>
+      <article class="card module-card"><h3>System settings</h3><p>Owner/staff roles, service setup, categories and future integrations.</p></article>
+    </div>
   </section>
   <section id="transactions" class="view">
     <article class="card"><div class="section-head"><h2>Record a transaction</h2><span class="hint">Saved in this browser preview only</span></div>
@@ -82,7 +207,7 @@ function tableHtml(items){if(!items.length)return '<div class="empty">No transac
 function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 function allocationHtml(income){return [['Tax reserve',percentages.tax],['Business costs',percentages.business],['Business buffer',percentages.buffer],['Personal allocation',percentages.personal]].map(([label,p])=>'<div class="alloc-row"><strong>'+label+' · '+p+'%</strong><span>'+fmt(income*p/100)+'</span><div class="bar"><i style="width:'+p+'%"></i></div></div>').join('')}
 function render(){const t=totals();$('incomeTotal').textContent=fmt(t.income);$('expenseTotal').textContent=fmt(t.expense);$('netTotal').textContent=fmt(t.income-t.expense);$('allocationSummary').innerHTML=allocationHtml(t.income);$('allocationDetail').innerHTML=allocationHtml(t.income);$('recentTransactions').innerHTML=tableHtml(transactions.slice(-5));$('allTransactions').innerHTML=tableHtml(transactions);$('goalSaved').textContent=fmt(goal.current);$('goalPercent').textContent=Math.min(100,Math.round(goal.current/goal.target*100))+'%';$('goalBar').style.width=Math.min(100,goal.current/goal.target*100)+'%';$('goalNameDisplay').textContent=goal.name;$('goalDetailSaved').textContent=fmt(goal.current);$('goalRemaining').textContent=fmt(Math.max(0,goal.target-goal.current))+' remaining of '+fmt(goal.target);$('goalDetailPercent').textContent=Math.min(100,Math.round(goal.current/goal.target*100))+'%';$('goalDetailBar').style.width=Math.min(100,goal.current/goal.target*100)+'%'}
-function show(view){document.querySelectorAll('.view').forEach(v=>v.classList.toggle('active',v.id===view));document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.view===view));$('pageTitle').textContent=({overview:'Financial overview',transactions:'Income & expenses',allocations:'Money allocation',goals:'Savings goals'})[view]||'Financial overview'}
+function show(view){document.querySelectorAll('.view').forEach(v=>v.classList.toggle('active',v.id===view));document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.view===view));$('pageTitle').textContent=({overview:'Business overview',homehelp:'Home help & support',cleaning:'Regular cleaning',deepcleans:'Deep cleans',laundry:'Wash & fold laundry',customers:'Customers',bookings:'Bookings & calendar',staff:'Staff & shifts',tasks:'Tasks & visit notes',transactions:'Income & expenses',allocations:'Money allocation',goals:'Savings goals',supplies:'Equipment & supplies',documents:'Documents & procedures',enquiries:'Enquiries & marketing',reports:'Reports & settings'})[view]||'Business overview'}
 document.querySelectorAll('[data-view]').forEach(b=>b.addEventListener('click',()=>show(b.dataset.view)));document.querySelectorAll('[data-goto]').forEach(b=>b.addEventListener('click',()=>show(b.dataset.goto)));
 $('txDate').value=new Date().toISOString().slice(0,10);
 $('transactionForm').addEventListener('submit',e=>{e.preventDefault();transactions.push({type:$('txType').value,description:$('txDescription').value.trim(),amount:Number($('txAmount').value),category:$('txCategory').value,date:$('txDate').value});e.target.reset();$('txDate').value=new Date().toISOString().slice(0,10);render()});
